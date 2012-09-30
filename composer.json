@@ -1,0 +1,6 @@
+{
+  "name" : "ufds/libdatabase",
+  "description" : "Generel ORM mapper baseret på PDO",
+  "version" : "1.0.0",
+  "license" : "UFDS privat"
+}

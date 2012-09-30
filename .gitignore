@@ -1,0 +1,3 @@
+*.komodoproject
+doc/coverage
+test/util/Config.php
