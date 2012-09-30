@@ -2,7 +2,7 @@
 
 SHELL=/bin/bash
 
-all: depend clean migrate test coverage
+all: checkout depend clean migrate coverage
 	echo "Up-to-date"
 
 dist:	
@@ -34,4 +34,4 @@ coverage:
 	phpunit --coverage-html doc/coverage test
 
 depend:
-	bin/depend.sh install --dev
+	bin/depend.sh update --dev

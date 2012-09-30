@@ -1,7 +1,7 @@
 {
   "name": "ufds/libdatabase",
   "description": "Generel ORM mapper baseret på PDO",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "UFDS privat",
   "require-dev": {
     "ruckus/ruckusing-migrations": "dev"
