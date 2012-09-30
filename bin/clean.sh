@@ -14,7 +14,7 @@ DB=`grep dbName ${CONFIG} | cut -d, -f2 | cut -d\' -f2`
 
 if [ -n $HOST -a -n $USER -a -n $PASSWORD -a -n $DB ]
 then
-  mysql --host=$HOST --user=$USER --password=$PASSWORD $DB < sql/clean.sql
+  mysql --host=$HOST --user=$USER --password=$PASSWORD $DB < database/sql/clean.sql
 else
   echo "HOST, USER, PASSWORD and DB is not defined"
   exit 3;

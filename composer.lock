@@ -1,0 +1,27 @@
+{
+    "hash": "2ba4a0ea43d4bec71e739fbd3295cefc",
+    "packages": [
+
+    ],
+    "packages-dev": [
+        {
+            "name": "ruckus/ruckusing-migrations",
+            "version": "dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ruckus/ruckusing-migrations.git",
+                "reference": "master"
+            },
+            "type": "library",
+            "installation-source": "source",
+            "time": "1348594723"
+        }
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "ruckus/ruckusing-migrations": 20
+    }
+}

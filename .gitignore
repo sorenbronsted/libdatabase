@@ -1,3 +1,4 @@
 *.komodoproject
+vendor/
 doc/coverage
 test/util/Config.php

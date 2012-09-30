@@ -1,7 +1,7 @@
 <?
 
 $paths = array(
-  "database",
+  "dbobject",
   "types",
   "test/util",
 );

@@ -1,0 +1,2 @@
+
+CREATE SCHEMA libdb_test DEFAULT CHARACTER SET utf8 COLLATE utf8_danish_ci;
