@@ -1,4 +1,7 @@
 
+#!/bin/sh
+#set -v
+
 CONFIG=test/util/Config.php
 
 if [ ! -f ${CONFIG} ]
