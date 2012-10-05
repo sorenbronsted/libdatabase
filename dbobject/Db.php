@@ -20,9 +20,13 @@ class Db {
     return $where;
   }
 
-  public static function buildSelect($table, $qbe) {
+  public static function buildSelect($table, $qbe, $orderby = array()) {
     $where = self::buildWhere($qbe);
-    return "select * from ".strtolower($table)." $where";
+    $orderby_s = "";
+    if ($orderby) {
+      $orderby_s = " order by ".implode(',', $orderby);
+    }
+    return "select * from ".strtolower($table)." $where $orderby_s";
   }
 
   public static function select($table, $qbe) {
@@ -53,7 +57,7 @@ class Db {
     $columns = "";
     $values = "";
     foreach ($data as $name => $value) {
-      if ($value) {
+      if ($value !== null) {
         if (strlen($columns) > 0) {
           $columns .= ',';
           $values .= ',';
@@ -67,10 +71,22 @@ class Db {
   }
 
   public static function delete(DbObject $object) {
-    if ($object->uid === null) {
+    self::deleteBy(get_class($object), array("uid" => $object->uid));
+  }
+
+  public static function deleteBy($table, $where) {
+    if (!$where) {
       return;
     }
-    $sql = "delete from ".strtolower(get_class($object)). " where uid = $object->uid";
+    $where = self::buildWhere($where);
+    self::deleteWhere($table, $where);
+  }
+
+  public static function deleteWhere($table, $where) {
+    if (!$where) {
+      return;
+    }
+    $sql = "delete from ".strtolower($table). " $where";
     self::exec($sql);
   }
 

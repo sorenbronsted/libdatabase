@@ -56,26 +56,35 @@ abstract class DbObject {
     else {
       Db::insert($this);
     }
+		$this->changed = array();
   }
   
   public function destroy() {
     Db::delete($this);
   }
 
-  public static function getAll() {
-    return self::get();
+  public function destroyBy(array $where) {
+    Db::deleteBy(get_called_class(), $where);
+  }
+
+  public static function getAll(array $orderby = array()) {
+    return self::get(array(), $orderby);
   }
 
   public static function getByUid($uid) {
     return self::getOneBy(array("uid" => $uid));
   }
 
-  public static function getBy(array $where) {
-    return self::get($where);
+  public static function getBy(array $where, array $orderby = array()) {
+    return self::get($where, $orderby);
   }
 
   public static function getOneBy(array $where) {
     $result = self::get($where);
+		return self::verifyOne($result);
+  }
+
+  public static function verifyOne(array $result) {
 		if (count($result) == 1) {
 			return $result[0];
 		}
@@ -87,8 +96,8 @@ abstract class DbObject {
 		}
   }
 
-  public static function get($qbe = array()) {
-    $sql = Db::buildSelect(get_called_class(), $qbe);
+  public static function get($qbe = array(), $orderby = array()) {
+    $sql = Db::buildSelect(get_called_class(), $qbe, $orderby);
     return self::getObjects($sql);
   }
 

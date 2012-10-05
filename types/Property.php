@@ -36,7 +36,7 @@ class Property {
         }
         break;
       case self::CASE_NUMBER:
-        if (is_string($value) || is_int($value)) {
+        if (is_string($value)) {
           $result = new CaseNumber($value);
         }
         break;

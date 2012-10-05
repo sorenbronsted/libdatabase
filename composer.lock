@@ -1,9 +1,6 @@
 {
-    "hash": "59bcb090c49a14e30fbf58814628f0a8",
+    "hash": "f3cdb3176d699aa58cb8ee30a63b3426",
     "packages": [
-
-    ],
-    "packages-dev": [
         {
             "name": "ruckus/ruckusing-migrations",
             "version": "dev",
@@ -14,9 +11,10 @@
             },
             "type": "library",
             "installation-source": "source",
-            "time": "1348594723"
+            "time": "1349128629"
         }
     ],
+    "packages-dev": null,
     "aliases": [
 
     ],
