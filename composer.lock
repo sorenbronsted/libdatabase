@@ -1,25 +1,62 @@
 {
-    "hash": "f3cdb3176d699aa58cb8ee30a63b3426",
+    "hash": "6bc490f3a8520ab0c263ffc55b3d0bfe",
     "packages": [
         {
-            "name": "ruckus/ruckusing-migrations",
-            "version": "dev",
+            "name": "ruckusing/ruckusing-migrations",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruckus/ruckusing-migrations.git",
-                "reference": "master"
+                "reference": "4af8713"
             },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/ruckus/ruckusing-migrations/zipball/f1bc07d392b36c16855f22786fb70508adf38f28",
+                "reference": "4af8713",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5"
+            },
+            "time": "1349128428",
+            "bin": [
+                "generate.php",
+                "main.php",
+                "update_ruckusing_database.php"
+            ],
             "type": "library",
             "installation-source": "source",
-            "time": "1349128629"
+            "license": [
+                "LGPL-2.1+"
+            ],
+            "authors": [
+                {
+                    "name": "Cody Caughlan",
+                    "email": "codycaughlan@gmail.com",
+                    "homepage": "https://github.com/ruckus/ruckusing-migrations/wiki",
+                    "role": "Project lead / Developer"
+                }
+            ],
+            "description": "Framework for generating and managing database migrations",
+            "keywords": [
+                "ruckusing",
+                "database",
+                "migrations"
+            ],
+            "support": {
+                "source": "https://github.com/ruckus/ruckusing-migrations/tree/master",
+                "issues": "https://github.com/ruckus/ruckusing-migrations/issues"
+            }
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+
+    ],
     "aliases": [
 
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ruckus/ruckusing-migrations": 20
+        "ruckusing/ruckusing-migrations": 20
     }
 }
