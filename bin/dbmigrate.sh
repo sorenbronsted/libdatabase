@@ -7,4 +7,4 @@ then
   exit 1
 fi
 
-php -f vendor/ruckus/ruckusing-migrations/main.php $@
+php -f vendor/ruckusing/ruckusing-migrations/main.php $@
