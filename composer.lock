@@ -11,7 +11,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/ruckus/ruckusing-migrations/zipball/f1bc07d392b36c16855f22786fb70508adf38f28",
+                "url": "https://github.com/ruckus/ruckusing-migrations/archive/d2b0d738b5d57541e0cda8d53e3a22570b8b91ea.zip",
                 "reference": "4af8713",
                 "shasum": ""
             },
@@ -49,9 +49,7 @@
             }
         }
     ],
-    "packages-dev": [
-
-    ],
+    "packages-dev": null,
     "aliases": [
 
     ],
