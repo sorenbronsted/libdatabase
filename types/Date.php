@@ -5,6 +5,7 @@ class Date {
   const FMT_DA = "%d-%m-%Y";
   const FMT_MYSQL = "%Y-%m-%d";
   const FMT_YMD = "%Y%m%d";
+  const TIMEZONE = "Europe/Copenhagen";
 
   public function __construct($date = "", $fmt = self::FMT_DA) {
     if (!$date || !$fmt) {
@@ -12,7 +13,7 @@ class Date {
     }
     if (is_object($date)) {
       if ($date instanceof Date) {
-        $this->date = new DateTime($date->toString());
+        $this->date = new DateTime($date->toString(), new DateTimeZone(self::TIMEZONE));
       }
       else if ($date instanceof DateTime) {
         $this->date = $date;
@@ -29,7 +30,7 @@ class Date {
       if (!$tmp) {
         throw new IllegalArgumentException("date: $date", __FILE__, __LINE__);
       }
-      $this->date = new DateTime();
+      $this->date = new DateTime("now", new DateTimeZone(self::TIMEZONE));
       $this->date->setDate(1900+$tmp["tm_year"], $tmp["tm_mon"]+1, $tmp["tm_mday"]);
       $this->date->setTime($tmp["tm_hour"], $tmp["tm_min"], $tmp["tm_sec"]);
     }
