@@ -1,5 +1,5 @@
 {
-    "hash": "6bc490f3a8520ab0c263ffc55b3d0bfe",
+    "hash": "b74a8eda81ebc1e21b319c74362fa854",
     "packages": [
         {
             "name": "ruckusing/ruckusing-migrations",
@@ -7,18 +7,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruckus/ruckusing-migrations.git",
-                "reference": "4af8713"
+                "reference": "d2b0d738b5d57541e0cda8d53e3a22570b8b91ea"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/ruckus/ruckusing-migrations/archive/d2b0d738b5d57541e0cda8d53e3a22570b8b91ea.zip",
-                "reference": "4af8713",
+                "reference": "d2b0d738b5d57541e0cda8d53e3a22570b8b91ea",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5"
             },
-            "time": "1349128428",
+            "time": "1352852652",
             "bin": [
                 "generate.php",
                 "main.php",
