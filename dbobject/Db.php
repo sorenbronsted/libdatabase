@@ -8,7 +8,7 @@ class Db {
         if ($where) {
           $where .= " and ";
         }
-        if (is_string($value)) {
+        if (is_string($value) || is_object($value)) {
           $value = "'".$value."'";
         }
         $where .= "$name = $value";

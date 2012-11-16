@@ -44,6 +44,10 @@ class CrudTest extends PHPUnit_Framework_TestCase {
   private function read($sample) {
     $read = Sample::getByUid($sample->uid);
     $this->compare($sample, $read);
+    $read = Sample::getOneBy(array("date_value" => $sample->date_value));
+    $this->compare($sample, $read);
+    $read = Sample::getOneBy(array("int_value" => $sample->int_value));
+    $this->compare($sample, $read);
     return $read;
   }
   
