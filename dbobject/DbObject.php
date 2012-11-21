@@ -20,9 +20,12 @@ abstract class DbObject {
 	
 	public function __set($name, $value) {
 	  $properties = $this->getProperties();
-		$this->data[$name] = Property::getValue($properties[$name], $value);
-		if ($name != "uid") {
-			$this->changed[] = $name;
+		$tmp = Property::getValue($properties[$name], $value);
+		if ($this->data[$name] != $tmp) {
+			$this->data[$name] = $tmp;
+			if ($name != "uid") {
+				$this->changed[] = $name;
+			}
 		}
 	}
 	

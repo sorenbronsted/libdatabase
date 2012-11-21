@@ -15,6 +15,18 @@ class CrudTest extends PHPUnit_Framework_TestCase {
     $this->delete($sample->uid);
   }
   
+  public function testHasChanged() {
+    $sample = $this->create();
+    
+    $sample->case_number = "19990001";
+    $this->assertTrue($sample->hasFieldChanged('case_number'));
+    $sample = Sample::getByUid($sample->uid);
+    $sample->case_number = "10/01";
+    $this->assertTrue(!$sample->hasFieldChanged('case_number'));
+    
+    $this->delete($sample->uid);
+  }
+  
   private function delete($uid) {
     $sample = Sample::getByUid($uid);
     $sample->destroy();
