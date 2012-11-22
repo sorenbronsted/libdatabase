@@ -24,7 +24,7 @@ abstract class DbObject {
 			throw new UnknownPropertyException($name, __FILE__, __LINE__);
 		}
 		$newValue = Property::getValue($properties[$name], $value);
-		if (!array_key_exists($name, $this->data) || $this->data[$name] != $newValue) {
+		if (is_null($this->data[$name]) || $this->data[$name] != $newValue) {
 			$this->data[$name] = $newValue;
 			if ($name != "uid") {
 				$this->changed[] = $name;
