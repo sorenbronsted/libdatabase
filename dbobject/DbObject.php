@@ -20,9 +20,12 @@ abstract class DbObject {
 	
 	public function __set($name, $value) {
 	  $properties = $this->getProperties();
-		$tmp = Property::getValue($properties[$name], $value);
-		if ($this->data[$name] != $tmp) {
-			$this->data[$name] = $tmp;
+		if (!array_key_exists($name, $properties)) {
+			throw new UnknownPropertyException($name, __FILE__, __LINE__);
+		}
+		$newValue = Property::getValue($properties[$name], $value);
+		if (!array_key_exists($name, $this->data) || $this->data[$name] != $newValue) {
+			$this->data[$name] = $newValue;
 			if ($name != "uid") {
 				$this->changed[] = $name;
 			}
@@ -30,11 +33,8 @@ abstract class DbObject {
 	}
 	
   public function setData(array $data) {
-	  $properties = $this->getProperties();
-	  foreach (array_keys($properties) as $name) {
-	    if (array_key_exists($name, $data)) {
-	     $this->$name = $data[$name];
-	    }
+	  foreach (array_keys($data) as $name) {
+			$this->$name = $data[$name]; // This will trigger __set
 	  }
 	}
 

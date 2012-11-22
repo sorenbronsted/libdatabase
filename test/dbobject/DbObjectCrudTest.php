@@ -2,7 +2,7 @@
 require_once 'PHPUnit/Autoload.php';
 require_once 'test/settings.php';
 
-class CrudTest extends PHPUnit_Framework_TestCase {
+class DbObjectCrudTest extends PHPUnit_Framework_TestCase {
   
   protected function tearDown() {
     Db::exec("delete from sample");
@@ -12,18 +12,6 @@ class CrudTest extends PHPUnit_Framework_TestCase {
     $sample = $this->create();
     $sample = $this->read($sample);
     $update = $this->update($sample);
-    $this->delete($sample->uid);
-  }
-  
-  public function testHasChanged() {
-    $sample = $this->create();
-    
-    $sample->case_number = "19990001";
-    $this->assertTrue($sample->hasFieldChanged('case_number'));
-    $sample = Sample::getByUid($sample->uid);
-    $sample->case_number = "10/01";
-    $this->assertTrue(!$sample->hasFieldChanged('case_number'));
-    
     $this->delete($sample->uid);
   }
   
@@ -70,15 +58,7 @@ class CrudTest extends PHPUnit_Framework_TestCase {
   }
   
   private function create() {
-    $sample = new Sample();
-    $sample->case_number = '10/01';
-    $sample->date_value = '21-10-2012';
-    $sample->cpr = '0102031234';
-    $sample->int_value = "117";
-    $sample->string_value = 'test';
-    $sample->decimal_value = 1234567.89;
-    $sample->boolean_value = "1";
-    
+    $sample = Fixtures::newSample();
     $sample->save();
     $this->assertTrue($sample->uid > 0);
     return $sample;
