@@ -57,6 +57,9 @@ class Db {
     $columns = "";
     $values = "";
     foreach ($data as $name => $value) {
+      if ($name == "uid") {
+        continue;
+      }
       if ($value !== null) {
         if (strlen($columns) > 0) {
           $columns .= ',';
