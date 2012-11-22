@@ -15,13 +15,13 @@ abstract class DbObject {
 	}
 	
 	public function __get($name) {
-		return $this->data[$name];
+		return (array_key_exists($name, $this->data) ? $this->data[$name] : null);
 	}
 	
 	public function __set($name, $value) {
 	  $properties = $this->getProperties();
 		if (!array_key_exists($name, $properties)) {
-			throw new UnknownPropertyException($name, __FILE__, __LINE__);
+			return; // Silently ignore unknown properties
 		}
 		$newValue = Property::getValue($properties[$name], $value);
 		if (is_null($this->data[$name]) || $this->data[$name] != $newValue) {

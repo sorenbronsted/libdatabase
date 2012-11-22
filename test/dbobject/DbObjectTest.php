@@ -24,13 +24,8 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
 
   public function testUnknownProperty() {
     $sample = Fixtures::newSample();
-    try {
-      $sample->unknown = "test";
-      $this->fail("Exception expected");
-    }
-    catch(UnknownPropertyException $e) {
-      $this->assertTrue(true);
-    }
+    $sample->unknown = "test";
+    $this->assertEquals(null, $sample->unknown);
   }
   
 }
