@@ -101,7 +101,7 @@ abstract class DbObject {
 
   public static function get($qbe = array(), $orderby = array()) {
     $sql = Db::buildSelect(get_called_class(), $qbe, $orderby);
-    return self::getObjects($sql);
+    return self::getObjects($sql, $qbe);
   }
 
 	public static function getWhere($where) {
@@ -110,10 +110,16 @@ abstract class DbObject {
 		return self::getObjects($sql);
 	}
 	
-  public static function getObjects($sql) {
+  public static function getObjects($sql, $qbe = null) {
     $result = array();
 		$class = get_called_class();
-    $cursor = Db::query($sql);
+		$cursor = null;
+		if ($qbe != null) {
+			$cursor = Db::prepareQuery($sql, array_values($qbe));
+		}
+		else {
+			$cursor = Db::query($sql);
+		}
     while ($cursor->hasNext()) {
       $row = $cursor->next();
       $object = new $class($row);

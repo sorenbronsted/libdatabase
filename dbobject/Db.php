@@ -8,10 +8,7 @@ class Db {
         if ($where) {
           $where .= " and ";
         }
-        if (is_string($value) || is_object($value)) {
-          $value = "'".$value."'";
-        }
-        $where .= "$name = $value";
+        $where .= "$name = ?";
       }
     }
     if ($where) {
@@ -29,33 +26,41 @@ class Db {
     return "select * from ".strtolower($table)." $where $orderby_s";
   }
 
+  public static function buildValues($qbe) {
+    return array_values($qbe);  
+  }
+  
   public static function select($table, $qbe) {
     $sql = self::buildSelect($table, $qbe);
-    return self::query($sql);
+    $values = self::buildValues($qbe);
+    return self::prepareQuery($sql, $values);
   }
 
   public static function update(DbObject $object) {
     $data = $object->getChanged();
     $list = "";
+    $values = array();
     foreach ($data as $name) {
       $value = $object->$name;
       if ($value !== null) {
         if ($list) {
           $list .= ", ";
         }
-        $list .= "$name = '".$value."'";
+        $list .= "$name = ?";
+        $values[] = $value;
       }
     }
     if ($list) {
       $sql = "update ".strtolower(get_class($object))." set $list where uid = $object->uid";
-      self::exec($sql);
+      self::prepareExec($sql, $values);
     }
   }
 
   public static function insert(DbObject $object) {
     $data = $object->getData();
     $columns = "";
-    $values = "";
+    $placeHolders = "";
+    $values = array();
     foreach ($data as $name => $value) {
       if ($name == "uid") {
         continue;
@@ -63,34 +68,68 @@ class Db {
       if ($value !== null) {
         if (strlen($columns) > 0) {
           $columns .= ',';
-          $values .= ',';
+          $placeHolders .= ',';
         }
         $columns .= $name;
-        $values .= "'".$value."'";
+        $values[] = $value;
+        $placeHolders .= '?';
       }
     }
-    $sql = "insert into ".strtolower(get_class($object))."($columns) values($values)";
-    $object->uid = self::exec($sql);
+    $sql = "insert into ".strtolower(get_class($object))."($columns) values($placeHolders)";
+    $object->uid = self::prepareExec($sql, $values);
   }
 
   public static function delete(DbObject $object) {
     self::deleteBy(get_class($object), array("uid" => $object->uid));
   }
 
-  public static function deleteBy($table, $where) {
-    if (!$where) {
+  public static function deleteBy($table, array $qbe) {
+    if (!$qbe) {
       return;
     }
-    $where = self::buildWhere($where);
-    self::deleteWhere($table, $where);
+    $where = self::buildWhere($qbe);
+    self::deleteWhere($table, $where, $qbe);
   }
 
-  public static function deleteWhere($table, $where) {
+  public static function deleteWhere($table, $where, $qbe = null) {
     if (!$where) {
       return;
     }
     $sql = "delete from ".strtolower($table). " $where";
-    self::exec($sql);
+    if ($qbe == null) {
+      self::exec($sql);
+    }
+    else {
+      self::prepareExec($sql, array_values($qbe));
+    }
+  }
+
+  public static function prepareExec($sql, $values) {
+    if (Config::dbDebug) {
+      syslog(LOG_DEBUG, "sql: $sql");
+      syslog(LOG_DEBUG, "values: ".implode(';', $values));
+    }
+    $db = DbFactory::getConnect();
+    $stmt = $db->prepare($sql);
+    if ($stmt === false) {
+      throw new RuntimeException("prepare statement failed");
+    }
+    $stmt->execute($values);
+    return $db->lastInsertId();
+  }
+
+  public static function prepareQuery($sql, $values) {
+    if (Config::dbDebug) {
+      syslog(LOG_DEBUG, "sql: $sql");
+      syslog(LOG_DEBUG, "values: ".implode(';', $values));
+    }
+    $db = DbFactory::getConnect();
+    $stmt = $db->prepare($sql);
+    if ($stmt === false) {
+      throw new RuntimeException("prepare statement failed");
+    }
+    $stmt->execute($values);
+    return new DbCursor($stmt);
   }
 
   public static function exec($sql) {
