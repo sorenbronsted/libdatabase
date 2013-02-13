@@ -40,4 +40,11 @@ class PropertyTest extends PHPUnit_Framework_TestCase {
     $value = "19980011";
     $this->assertEquals(new CaseNumber(19980011), Property::getValue(Property::CASE_NUMBER, $value));
   }
+  
+  public function testIsNull() {
+    $cn = new CaseNumber(19980011);
+    $this->assertTrue(!Property::isEmpty(Property::CASE_NUMBER, $cn));
+    $cn = new CaseNumber(null);
+    $this->assertTrue(Property::isEmpty(Property::CASE_NUMBER, $cn));
+  }
 }

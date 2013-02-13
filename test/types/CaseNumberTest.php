@@ -39,4 +39,11 @@ class CaseNumberTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(is_string($cn->__toString()));
     $this->assertEquals("20110001", $cn);
   }
+  
+  public function testIsNull() {
+    $cn = new CaseNumber(20110001);
+    $this->assertTrue(!$cn->isNull());
+    $cn = new CaseNumber(null);
+    $this->assertTrue($cn->isNull());
+  }
 }

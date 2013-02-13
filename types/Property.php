@@ -36,7 +36,7 @@ class Property {
         }
         break;
       case self::CASE_NUMBER:
-        if (is_string($value)) {
+        if (is_string($value) || is_numeric($value)) {
           $result = new CaseNumber($value);
         }
         break;
@@ -76,9 +76,9 @@ class Property {
       case self::DECIMAL:
       case self::PERCENT:
       case self::CPR:
-      case self::CASE_NUMBER:
         $result = false;
         break;
+      case self::CASE_NUMBER:
       case self::DATE:
         $result = $value->isNull();
         break;

@@ -24,6 +24,10 @@ class CaseNumber {
     return $this->number;
   }
   
+  public function isNull() {
+    return is_null($this->number);
+  }
+  
   private function toInt() {
     if (!is_string($this->number)) {
       return;
