@@ -10,6 +10,13 @@ class Property {
   const BOOLEAN = 6;
   const PERCENT = 7;
 
+  /* Converts a string value to a value of $type.
+   * If values is empty or null nothing is converted.
+   * Some of the types are php primitives or objects like this:
+   *   INT, DECIMAL, STRING, PERCENT => primitive
+   *   DATO, CASE_NUMBER, CPR => object
+   * Return a value converted acording to type.
+   */
   public static function getValue($type, $value) {
     $result = $value;
     switch ($type) {
@@ -26,7 +33,7 @@ class Property {
         }
         break;
       case self::DATE:
-        if (is_string($value)) {
+        if (is_string($value) && strlen($value)) {
           $result = new Date($value);
         }
         break;
@@ -36,12 +43,12 @@ class Property {
         }
         break;
       case self::CASE_NUMBER:
-        if (is_string($value) || is_numeric($value)) {
+        if ((is_string($value)  && strlen($value)) || is_numeric($value)) {
           $result = new CaseNumber($value);
         }
         break;
       case self::CPR:
-        if (is_string($value)) {
+        if (is_string($value) && strlen($value)) {
           $result = new Cpr($value);
         }
         break;
