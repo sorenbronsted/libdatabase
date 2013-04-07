@@ -46,10 +46,8 @@ class DateTest extends PHPUnit_Framework_TestCase {
   
   public function testEmpty() {
     try {
-      new Date("");
-      new Date(null);
-      $d = new Date(0);
-      $this->assertEquals("", $d->toString());
+      $d = new Date("0000-00-00");
+      $this->assertEquals(true, $d->isNull());
     }
     catch(Exception $e) {
       $this->fail($e);
@@ -126,5 +124,11 @@ class DateTest extends PHPUnit_Framework_TestCase {
     //var_dump((string)$doc->date);
     $date = new Date((string)$doc->date, Date::FMT_YMD);
     $this->assertEquals("20091229", $date->format("Ymd"));
+  }
+  
+  public function testWithTime() {
+    $dt = new DateTime("now");
+    $d = new Date($dt, Date::FMT_DA_LONG, true);
+    $this->assertEquals($d->format(Date::FMT_MYSQL_LONG), $dt->format("Y-m-d H:i:s"));
   }
 }

@@ -9,6 +9,7 @@ class Property {
   const CPR = 5;
   const BOOLEAN = 6;
   const PERCENT = 7;
+  const DATETIME = 8;
 
   /* Converts a string value to a value of $type.
    * If values is empty or null nothing is converted.
@@ -35,6 +36,11 @@ class Property {
       case self::DATE:
         if (is_string($value) && strlen($value)) {
           $result = new Date($value);
+        }
+        break;
+      case self::DATETIME:
+        if (is_string($value) && strlen($value)) {
+          $result = new Date($value, Date::FMT_DA_LONG, true);
         }
         break;
       case self::STRING:
@@ -86,6 +92,7 @@ class Property {
         $result = false;
         break;
       case self::CASE_NUMBER:
+      case self::DATETIME:
       case self::DATE:
         $result = $value->isNull();
         break;
