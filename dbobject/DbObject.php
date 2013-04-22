@@ -26,7 +26,7 @@ abstract class DbObject {
 		$newValue = Property::getValue($properties[$name], $value);
 		if (is_null($this->data[$name]) || is_null($newValue) || $this->data[$name] != $newValue) {
 			$this->data[$name] = $newValue;
-			if ($name != "uid") {
+			if ($name != "uid" &&	!$this->hasFieldChanged($name)) {
 				$this->changed[] = $name;
 			}
 		}

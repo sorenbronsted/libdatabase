@@ -4,14 +4,10 @@ class Cpr {
   private $number;
   
   public function __construct($number) {
-    $prefix = "";
-    if (strlen($number) == 9) {
-      $prefix = "0";
+    if (strlen($number) != 10) {
+      throw new IllegalArgumentException($number, __FILE__, __LINE__);
     }
-    $this->number = $prefix.$number;
-    if (strlen($this->number) != 10) {
-      throw new CprException(__FILE__, __LINE__);
-    }
+    $this->number = $number;
   }
   
   public function getDate() {
@@ -63,5 +59,24 @@ class Cpr {
   
   public function __toString() {
     return $this->number;
+  }
+  
+  public static function parse($input) {
+    if (is_null($input)) {
+      return null;
+    }
+    
+    $prefix = "";
+    if (strlen($input) == 9) {
+      $prefix = "0";
+    }
+    $result = null;
+    try {
+      $result = new Cpr($prefix.$input);
+    }
+    catch (IllegalArgumentException $e) {
+      // Ignore
+    }
+    return $result;
   }
 }

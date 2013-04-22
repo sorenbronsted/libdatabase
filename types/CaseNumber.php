@@ -4,16 +4,18 @@ class CaseNumber {
   private $number;
 
   public function __construct($number) {
+    if (is_null($number) || !is_integer($number) || $number < 19000000) {
+      throw new IllegalArgumentException($number, __FILE__, __LINE__);
+    }
     $this->number = $number;
-    $this->toInt();
   }
 
   public function __toString() {
-    return strval($this->number);
+    return $this->toString();
   }
 
   public function toString() {
-    return $this->__toString();
+    return strval($this->number);
   }
 
   public function isEqual(CaseNumber $cn) {
@@ -24,38 +26,38 @@ class CaseNumber {
     return $this->number;
   }
   
-  public function isNull() {
-    return is_null($this->number);
-  }
-  
-  private function toInt() {
-    if (!is_string($this->number)) {
-      return;
+  public static function parse($number) {
+    if (is_null($number)) {
+      return null;
     }
     
-    if (strpos($this->number, "/")) {
-      $caseNumber = explode("/", $this->number);
-      if (strlen($caseNumber[1]) >= 1 && strlen($caseNumber[1]) <= 2) {
+    $value = null;
+    if (strpos($number, "/") > 0) {
+      $parts = explode("/", $number);
+      if (strlen($parts[1]) >= 1 && strlen($parts[1]) <= 2) {
         $century = "19";
-        if ($caseNumber[1] < 70) {
+        if ($parts[1] < 70) {
           $century = "20";
         }
-        $caseNumber[1] = $century . sprintf("%02d", $caseNumber[1]);
+        $parts[1] = $century . sprintf("%02d", $parts[1]);
       }
-      else {
-        if (strlen($caseNumber[1]) != 4) {
-          throw new CaseNumberException($this->number, __FILE__,__LINE__);
-        }
-      }
-      $this->number = intval($caseNumber[1]) * 10000 + intval(sprintf("%04d", $caseNumber[0]));
+      $value = intval($parts[1]) * 10000 + intval(sprintf("%04d", $parts[0]));
+    }
+    else if (is_string($number)) {
+      $value = intval($number);
     }
     else {
-      $this->number = intval($this->number);
+      $value = $number;
     }
     
-    if ($this->number < 19000000) {
-      throw new CaseNumberException($this->number, __FILE__,__LINE__);
+    $result = null;
+    try {
+      $result = new CaseNumber($value);
     }
+    catch (IllegalArgumentException $e) {
+      // Ignore
+    }
+    return $result;
   }
 }
   

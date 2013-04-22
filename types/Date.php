@@ -1,20 +1,17 @@
 <?php
 
 class Date {
-  private $date = null;
-  private $isDateTime = false;
-  const FMT_DA = "%d-%m-%Y";
-  const FMT_DA_LONG = "%d-%m-%Y %H:%i:%s";
-  const FMT_MYSQL = "%Y-%m-%d";
-  const FMT_MYSQL_LONG = "%Y-%m-%d %H:%i:%s";
-  const FMT_YMD = "%Y%m%d";
+  private $date;
+  const FMT_DA = "d-m-Y";
+  const FMT_DA_LONG = "d-m-Y H:i:s";
+  const FMT_MYSQL = "Y-m-d";
+  const FMT_MYSQL_LONG = "Y-m-d H:i:s";
+  const FMT_YMD = "Ymd";
   const TIMEZONE = "Europe/Copenhagen";
 
-  public function __construct($date = null, $fmt = self::FMT_DA, $isDateTime = false) {
-    $this->isDateTime = $isDateTime;
-    
-    if (is_null($date) || $date == "") {
-      $this->date = new Datetime("now");
+  public function __construct($date = null) {
+    if (is_null($date)) {
+      $this->date = new DateTime("now", new DateTimeZone(self::TIMEZONE));
     }
     else {
       if (is_object($date)) {
@@ -26,25 +23,13 @@ class Date {
         }
       }
       else {
-        if ($this->isMysqlDate($date)) {
-          $fmt = $this->isDateTime ? self::FMT_MYSQL_LONG : self::FMT_MYSQL;
-          if ($date == "0000-00-00") {
-            return;
-          }
-        }
-        $tmp = strptime($date, $fmt);
-        if (!$tmp) {
-          throw new IllegalArgumentException("date: $date", __FILE__, __LINE__);
-        }
-        $this->date = new DateTime("now", new DateTimeZone(self::TIMEZONE));
-        $this->date->setDate(1900+$tmp["tm_year"], $tmp["tm_mon"]+1, $tmp["tm_mday"]);
-        $this->date->setTime($tmp["tm_hour"], $tmp["tm_min"], $tmp["tm_sec"]);
+        throw new IllegalArgumentException("date", __FILE__, __LINE__);
       }
     }
   }
 
-  public function isNull() {
-    return is_null($this->date);
+  protected function hasTime() {
+    return false;
   }
   
   public function __toString() {
@@ -52,11 +37,10 @@ class Date {
   }
   
   public function toString() {
-    return $this->format($this->isDateTime ? self::FMT_MYSQL_LONG : self::FMT_MYSQL);
+    return $this->format($this->hasTime() ? self::FMT_MYSQL_LONG : self::FMT_MYSQL);
   }
 
   public function format($fmt) {
-    $fmt = str_replace("%","", $fmt);
     return ($this->date != null ? $this->date->format($fmt) : "");
   }
 
@@ -108,23 +92,49 @@ class Date {
   }
   
   public function equals(Date $other) {
-    $fmt = $this->isDateTime ? "YmdHis" : "Ymd";
+    $fmt = "YmdHis";
     return ($this->format($fmt) - $other->format($fmt)) == 0;
   }
   
   public function isAfter(Date $other) {
-    $fmt = $this->isDateTime ? "YmdHis" : "Ymd";
+    $fmt = "YmdHis";
     return ($this->format($fmt) - $other->format($fmt)) > 0;
   }
 
   public function isBefore(Date $other) {
-    $fmt = $this->isDateTime ? "YmdHis" : "Ymd";
+    $fmt = "YmdHis";
     return ($this->format($fmt) - $other->format($fmt)) < 0;
   }
 
   public function diff(Date $other) {
     $days = $this->date->diff($other->date)->days;
     return ($this->isAfter($other) ? $days : -$days);
+  }
+  
+  public static function parse($date, $fmt = null) {
+    if (empty($date) || strlen($date) < 4 || substr($date,0,4) == "0000") {
+      return null;
+    }
+    if (is_null($fmt)) { // Try and guess date format
+      $fmt = self::FMT_DA;
+      if (self::isMysqlDate($date)) {
+        $fmt = self::FMT_MYSQL;
+        if (strlen($date) > 10){
+          $fmt = self::FMT_MYSQL_LONG;
+        }
+      }
+      else if (strlen($date) > 10) {
+        $fmt = self::FMT_DA_LONG;
+      }
+    }
+    $dt = DateTime::createFromFormat($fmt, $date, new DateTimeZone(self::TIMEZONE));
+    if ($dt === false) {
+      throw new IllegalArgumentException("date: $date", __FILE__, __LINE__);
+    }
+    if (strlen($fmt) <= 10) {
+      $dt->setTime(0,0,0);
+    }
+    return (strlen($fmt) > 10 ? new Timestamp($dt) : new Date($dt));
   }
   
   private static function isMysqlDate($date) {

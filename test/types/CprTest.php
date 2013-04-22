@@ -53,14 +53,9 @@ class CprTest extends PHPUnit_Framework_TestCase {
   }
   
   public function testEmpty() {
-    try {
-      foreach(array("", null) as $value) {
-        new Cpr($value);
-        $this->fail("Expected CprException");
-      }
-    }
-    catch (CprException $e) {
-      // Success
+    foreach(array("", null) as $value) {
+      $value = Cpr::parse($value);
+      $this->assertEquals(null, $value);
     }
   }
 }

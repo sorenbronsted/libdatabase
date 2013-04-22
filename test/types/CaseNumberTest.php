@@ -3,7 +3,8 @@ require_once 'PHPUnit/Autoload.php';
 require_once 'test/settings.php';
 
 class CaseNumberTest extends PHPUnit_Framework_TestCase {
-
+  private $values;
+  
   protected function setUp() {
     $this->values = array(
       20110010 => 20110010,
@@ -15,22 +16,27 @@ class CaseNumberTest extends PHPUnit_Framework_TestCase {
     );
   }
   
-  public function testToNumber() {
+  public function testParse() {
     foreach($this->values as $src => $tst) {    
-      $cn = new CaseNumber($src);
+      $cn = CaseNumber::parse($src);
+      $this->assertNotNull($cn, $src);
       $this->assertEquals($tst, $cn->toNumber());
     }
   }
   
   public function testIsEquals() {
     foreach($this->values as $src => $tst) {    
-      $srcCn = new CaseNumber($src);
-      $tstCn = new CaseNumber($tst);
+      $srcCn = CaseNumber::parse($src);
+      $this->assertNotNull($srcCn);
+      $tstCn = CaseNumber::parse($tst);
+      $this->assertNotNull($tstCn);
       $this->assertTrue($tstCn->isEqual($srcCn));
     }
     
-    $srcCn = new CaseNumber("10/10");
-    $tstCn = new CaseNumber("11/11");
+    $srcCn = CaseNumber::parse("10/10");
+    $this->assertNotNull($srcCn);
+    $tstCn = CaseNumber::parse("11/11");
+    $this->assertNotNull($tstCn);
     $this->assertFalse($tstCn->isEqual($srcCn));
   }
   
@@ -38,12 +44,5 @@ class CaseNumberTest extends PHPUnit_Framework_TestCase {
     $cn = new CaseNumber(20110001);
     $this->assertTrue(is_string($cn->__toString()));
     $this->assertEquals("20110001", $cn);
-  }
-  
-  public function testIsNull() {
-    $cn = new CaseNumber(20110001);
-    $this->assertTrue(!$cn->isNull());
-    $cn = new CaseNumber(null);
-    $this->assertTrue($cn->isNull());
   }
 }

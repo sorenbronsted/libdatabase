@@ -11,6 +11,7 @@ class Sample extends DbObject {
     'uid' => Property::INT,
     'case_number' => Property::CASE_NUMBER,
     'date_value' => Property::DATE,
+    'datetime_value' => Property::TIMESTAMP,
     'cpr' => Property::CPR,
     'int_value' => Property::INT,
     'string_value' => Property::STRING,

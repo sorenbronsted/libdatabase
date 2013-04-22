@@ -27,7 +27,17 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
     $sample->unknown = "test";
     $this->assertEquals(null, $sample->unknown);
   }
-  
+
+  public function testMultipleUpdates() {
+    $sample = Fixtures::newSample();
+    $sample->save();
+    $sample->int_value = 1;
+    $sample->int_value = 2;
+    $changedFields = $sample->getChanged();
+    $this->assertNotNull($changedFields);
+    $this->assertEquals(1, count($changedFields));
+    $sample->destroy();
+  }
 }
 
 ?>

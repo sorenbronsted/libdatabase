@@ -9,7 +9,7 @@ class Property {
   const CPR = 5;
   const BOOLEAN = 6;
   const PERCENT = 7;
-  const DATETIME = 8;
+  const TIMESTAMP = 8;
 
   /* Converts a string value to a value of $type.
    * If values is empty or null nothing is converted.
@@ -34,13 +34,9 @@ class Property {
         }
         break;
       case self::DATE:
+      case self::TIMESTAMP:
         if (is_string($value) && strlen($value)) {
-          $result = new Date($value);
-        }
-        break;
-      case self::DATETIME:
-        if (is_string($value) && strlen($value)) {
-          $result = new Date($value, Date::FMT_DA_LONG, true);
+          $result = Date::parse($value);
         }
         break;
       case self::STRING:
@@ -50,12 +46,12 @@ class Property {
         break;
       case self::CASE_NUMBER:
         if ((is_string($value)  && strlen($value)) || is_numeric($value)) {
-          $result = new CaseNumber($value);
+          $result = CaseNumber::parse($value);
         }
         break;
       case self::CPR:
         if (is_string($value) && strlen($value)) {
-          $result = new Cpr($value);
+          $result = Cpr::parse($value);
         }
         break;
       case self::BOOLEAN:
@@ -82,19 +78,17 @@ class Property {
       return true;
     }
     $result = true;
-    // cpr and casenumber can not be null
+
     switch ($type) {
       case self::INT:
       case self::BOOLEAN:
       case self::DECIMAL:
       case self::PERCENT:
       case self::CPR:
-        $result = false;
-        break;
-      case self::CASE_NUMBER:
-      case self::DATETIME:
+      case self::TIMESTAMP:
       case self::DATE:
-        $result = $value->isNull();
+      case self::CASE_NUMBER:
+        $result = false;
         break;
       case self::STRING:
         $result = strlen($value) == 0;

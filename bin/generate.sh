@@ -5,4 +5,4 @@ then
   echo "Usage $0 <name-of-migrations-class>"
   exit 1
 fi
-php -f vendor/ruckus/ruckusing-migrations/generate.php $1
+php -f vendor/ruckusing/ruckusing-migrations/generate.php $1
