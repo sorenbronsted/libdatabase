@@ -58,4 +58,19 @@ class CprTest extends PHPUnit_Framework_TestCase {
       $this->assertEquals(null, $value);
     }
   }
+  
+  public function testGetDate() {
+    $male = new Cpr("0103251235");
+    $date = $male->getDate();
+    $this->assertInstanceOf("Date", $date);
+    $this->assertEquals(Date::parse("1925-03-01"), $date);
+  }
+  
+  public function testGetAgeAt() {
+    $male = new Cpr("0103251235");
+    $age = $male->getAgeAt("20-01-1952");
+    $this->assertEquals(1952-1925, $age);
+    $age = $male->getAgeAt("1952-01-20");
+    $this->assertEquals(1952-1925, $age);
+  }
 }

@@ -45,4 +45,17 @@ class CaseNumberTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(is_string($cn->__toString()));
     $this->assertEquals("20110001", $cn);
   }
+  
+  public function testIllegalArgument() {
+    $values = array(null, "abc", 10);
+    foreach($values as $value) {
+      try {
+        new CaseNumber($value);
+        $this->fail("Exception expected");
+      }
+      catch (IllegalArgumentException $e) {
+        // success
+      }
+    }
+  }
 }

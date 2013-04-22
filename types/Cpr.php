@@ -12,12 +12,12 @@ class Cpr {
   
   public function getDate() {
     $century = $this->getCentury();
-    return new Date(substr($this->number,0,6).$century, "%d%m%y%C");
+    return Date::parse(substr($this->number,0,4).$century.substr($this->number,4,2), "dmY");
   }
   
   public function getAgeAt($date) {
     if (is_string($date)) {
-      $date = new Date($date, "%Y%m%d");
+      $date = Date::parse($date);
     }
     $birthDate = $this->getDate();
     return $date->year - $birthDate->year;
