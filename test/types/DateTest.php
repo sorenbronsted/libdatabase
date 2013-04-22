@@ -131,7 +131,25 @@ class DateTest extends PHPUnit_Framework_TestCase {
   
   public function testWithTime() {
     $dt = new DateTime("now");
-    $d = new Date($dt, Date::FMT_DA_LONG, true);
-    $this->assertEquals($d->format(Date::FMT_MYSQL_LONG), $dt->format("Y-m-d H:i:s"));
+    $d = new Date($dt);
+    $this->assertEquals($dt->format("Y-m-d H:i:s"), $d->format(Date::FMT_MYSQL_LONG));
+    $this->assertEquals($dt->format("His"), $d->time);
+    $this->assertEquals($dt->format("YmdHis"), $d->datetime);
+    $this->assertTrue($d->equals(new Date($dt)));
+  }
+  
+  public function testDefault() {
+    $d = new Date();
+    $this->assertTrue(strlen($d->toString()) > 0);
+  }
+  
+  public function testIllegalArgument() {
+    try {
+      new Date("01-01-01");
+      $this->fail("Exception expected");
+    }
+    catch (IllegalArgumentException $e) {
+      // success
+    }
   }
 }

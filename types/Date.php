@@ -64,7 +64,7 @@ class Date {
         $fmt = "His";
         break;
       case "datetime" :
-        $fmt = "Ymd His";
+        $fmt = "YmdHis";
         break;
       default:
         throw new IllegalArgumentException($name, __FILE__, __LINE__);
