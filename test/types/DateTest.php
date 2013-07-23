@@ -152,4 +152,13 @@ class DateTest extends PHPUnit_Framework_TestCase {
       // success
     }
   }
+  
+  public function testRoll() {
+    $date = Date::parse("02-01-1950");
+    $interval = new DateInterval("P3M");
+    $date->rollForward($interval);
+    $this->assertEquals(Date::parse("02-04-1950"), $date);
+    $date->rollBackward($interval);
+    $this->assertEquals(Date::parse("02-01-1950"), $date);
+  }
 }

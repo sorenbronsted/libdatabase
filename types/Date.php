@@ -91,6 +91,14 @@ class Date {
     }
   }
   
+  public function rollForward(DateInterval $interval) {
+    $this->date->add($interval);
+  }
+  
+  public function rollBackward(DateInterval $interval) {
+    $this->date->sub($interval);
+  }
+  
   public function equals(Date $other) {
     $fmt = "YmdHis";
     return ($this->format($fmt) - $other->format($fmt)) == 0;
