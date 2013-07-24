@@ -5,4 +5,4 @@ then
   curl -s https://getcomposer.org/installer | php -- --install-dir=bin
 fi
 
-bin/composer.phar -n update 
+bin/composer.phar --no-progress --no-interaction update
