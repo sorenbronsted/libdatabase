@@ -161,4 +161,20 @@ class DateTest extends PHPUnit_Framework_TestCase {
     $date->rollBackward($interval);
     $this->assertEquals(Date::parse("02-01-1950"), $date);
   }
+  
+  public function testIsBetween() {
+    $date = Date::parse('01-01-1910');
+    $from = Date::parse('01-01-1900');
+    $to = Date::parse('01-01-1930');
+    $this->assertTrue($date->isBetween($from, $to));
+    
+    // test boundaries
+    $this->assertTrue($date->isBetween($date, $to));
+    $this->assertTrue($date->isBetween($from, $date));
+    $this->assertTrue($date->isBetween($date, $date));
+    
+    // false cases
+    $date = Date::parse('01-01-1980');
+    $this->assertFalse($date->isBetween($from, $to));
+  }
 }

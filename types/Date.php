@@ -114,6 +114,12 @@ class Date {
     return ($this->format($fmt) - $other->format($fmt)) < 0;
   }
 
+  public function isBetween(Date $from, Date $to) {
+    $fmt = "YmdHis";
+    $date = $this->format($fmt);
+    return ($date - $from->format($fmt)) >= 0 && ($date - $to->format($fmt)) <= 0;
+  }
+
   public function diff(Date $other) {
     $days = $this->date->diff($other->date)->days;
     return ($this->isAfter($other) ? $days : -$days);
