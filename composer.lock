@@ -6,28 +6,29 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ruckus/ruckusing-migrations.git",
-                "reference": "d2b0d738b5d57541e0cda8d53e3a22570b8b91ea"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/ruckus/ruckusing-migrations/archive/d2b0d738b5d57541e0cda8d53e3a22570b8b91ea.zip",
-                "reference": "d2b0d738b5d57541e0cda8d53e3a22570b8b91ea",
-                "shasum": ""
+                "url": "http://dev.ufds.lan/git/ruckusing-migrations.git",
+                "reference": "98022aa5c1bccf3f905db6d6bbe3da7f1e21b46f"
             },
             "require": {
-                "php": ">=5"
+                "php": ">=5.2.0"
             },
-            "time": "1352852652",
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "time": "1370243126",
             "bin": [
-                "generate.php",
-                "main.php",
-                "update_ruckusing_database.php"
+                "ruckus.php"
             ],
             "type": "library",
             "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Ruckusing": "lib/",
+                    "Task": "lib/"
+                }
+            },
             "license": [
-                "LGPL-2.1+"
+                "MIT"
             ],
             "authors": [
                 {
@@ -38,14 +39,20 @@
                 }
             ],
             "description": "Framework for generating and managing database migrations",
+            "homepage": "https://github.com/ruckus/ruckusing-migrations",
             "keywords": [
                 "ruckusing",
+                "rake",
+                "migrations",
                 "database",
-                "migrations"
+                "mysql",
+                "postgres",
+                "task"
             ],
             "support": {
-                "source": "https://github.com/ruckus/ruckusing-migrations/tree/master",
-                "issues": "https://github.com/ruckus/ruckusing-migrations/issues"
+                "email": "codycaughlan@gmail.com",
+                "issues": "https://github.com/ruckus/ruckusing-migrations/issues",
+                "source": "https://github.com/ruckus/ruckusing-migrations"
             }
         }
     ],

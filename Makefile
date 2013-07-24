@@ -34,4 +34,4 @@ coverage:
 	phpunit --coverage-html doc/coverage test
 
 depend:
-	bin/depend.sh install
+	bin/depend.sh update
