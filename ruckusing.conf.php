@@ -16,7 +16,10 @@ return array(
       'password'  => Config::dbPassword
     ),
   ),
-  'migrations_dir' => RUCKUSING_WORKING_BASE . '/database/migrations'
+  'migrations_dir' => RUCKUSING_WORKING_BASE . '/database',
+  'db_dir' => RUCKUSING_WORKING_BASE . '/db',
+  'log_dir' => RUCKUSING_WORKING_BASE . '/logs',
+  'ruckusing_base' => dirname(__FILE__) . '/vendor/ruckusing/ruckusing-migrations'
 );
 
 ?>

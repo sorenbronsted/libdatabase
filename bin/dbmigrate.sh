@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 #set -x
-if [ $# -lt 1 -o $# -gt 2 ]
+
+if [ $# -ge 2 ]
 then
   echo "Wrong number of arguments"
-  echo "Usage $0 db:migrate [VERSION=<id>]"
+  echo "Usage $0 [VERSION=<id>]"
   exit 1
 fi
 
-php -f vendor/ruckusing/ruckusing-migrations/main.php $@
+php -f vendor/bin/ruckus.php db:migrate $1
