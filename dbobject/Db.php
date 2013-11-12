@@ -46,7 +46,7 @@ class Db {
         if ($list) {
           $list .= ", ";
         }
-        $list .= "$name = ?";
+        $list .= "`$name` = ?";
         $values[] = $value;
       }
     }
@@ -67,7 +67,7 @@ class Db {
       }
       if ($value !== null) {
         if (strlen($columns) > 0) {
-          $columns .= ',';
+          $columns .= '`,`';
           $placeHolders .= ',';
         }
         $columns .= $name;
@@ -75,7 +75,7 @@ class Db {
         $placeHolders .= '?';
       }
     }
-    $sql = "insert into ".strtolower(get_class($object))."($columns) values($placeHolders)";
+    $sql = "insert into ".strtolower(get_class($object))."(`$columns`) values($placeHolders)";
     $object->uid = self::prepareExec($sql, $values);
   }
 
