@@ -38,6 +38,16 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(1, count($changedFields));
     $sample->destroy();
   }
+	
+	public function testDestroyBy() {
+    $sample = Fixtures::newSample();
+    $sample->save();
+		$list = Sample::getBy(array('uid' => $sample->uid));
+		$this->assertEquals(1, count($list));
+		Sample::destroyBy(array('uid' => $sample->uid));
+		$list = Sample::getBy(array('uid' => $sample->uid));
+		$this->assertEquals(0, count($list));
+	}
 }
 
 ?>

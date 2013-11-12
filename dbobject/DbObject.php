@@ -66,7 +66,7 @@ abstract class DbObject {
     Db::delete($this);
   }
 
-  public function destroyBy(array $where) {
+  public static function destroyBy(array $where) {
     Db::deleteBy(get_called_class(), $where);
   }
 
