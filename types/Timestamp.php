@@ -6,6 +6,10 @@ class Timestamp extends Date {
     parent::__construct($datetime);
   }
   
+  public function diff(Date $other) {
+    return $this->date->getTimestamp() - $other->date->getTimestamp();
+  }
+  
   protected function hasTime() {
     return true;
   }

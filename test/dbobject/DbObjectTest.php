@@ -17,7 +17,7 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
     
     $sample = Sample::getByUid($sample->uid);
     $sample->case_number = "10/01";
-    $this->assertTrue(!$sample->hasFieldChanged('case_number'));
+    $this->assertTrue($sample->hasFieldChanged('case_number'));
     
     $sample->destroy();
   }
@@ -47,6 +47,22 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
 		Sample::destroyBy(array('uid' => $sample->uid));
 		$list = Sample::getBy(array('uid' => $sample->uid));
 		$this->assertEquals(0, count($list));
+	}
+	
+	public function testSetDataStringUid() {
+		$data = array('uid' => 'key1');
+		$object = new SampleWithStringUid();
+		$object->setData($data);
+		$this->assertEquals($data['uid'], $object->uid);
+		$data = array('uid' => '1');
+		$object->setData($data);
+		$this->assertEquals($data['uid'], $object->uid);
+		$data = array('uid' => '0');
+		$object->setData($data);
+		$this->assertEquals($data['uid'], $object->uid);
+		$data = array('uid' => null);
+		$object->setData($data);
+		$this->assertEquals($data['uid'], $object->uid);
 	}
 }
 

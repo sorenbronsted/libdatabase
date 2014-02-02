@@ -1,7 +1,7 @@
 <?php
 
 class Date {
-  private $date;
+  protected $date;
   const FMT_DA = "d-m-Y";
   const FMT_DA_LONG = "d-m-Y H:i:s";
   const FMT_MYSQL = "Y-m-d";

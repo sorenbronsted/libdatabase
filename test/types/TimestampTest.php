@@ -19,6 +19,17 @@ class TimestampTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($s, $t->toString());
   }
 
+	public function testdiff() {
+		$ts1 = Timestamp::parse('01-01-2014 00:00:00');
+		$ts2 = Timestamp::parse('01-01-2014 00:00:10');
+		$this->assertEquals(10, $ts2->diff($ts1));
+		$ts2 = Timestamp::parse('01-01-2014 00:10:00');
+		$this->assertEquals(10 * 60, $ts2->diff($ts1));
+		$ts2 = Timestamp::parse('01-01-2014 02:00:00');
+		$this->assertEquals(2 * 60 * 60, $ts2->diff($ts1));
+		$ts2 = Timestamp::parse('02-01-2014 00:00:00');
+		$this->assertEquals(24 * 60 * 60, $ts2->diff($ts1));
+	}
 }
 
 ?>
