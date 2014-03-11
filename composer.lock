@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d2ceb8fb54f9db4c15f9e5dc22b189df",
+    "hash": "59376b4355f00cd0d85ee6fcd6f1a92a",
     "packages": [
         {
             "name": "ruckusing/ruckusing-migrations",
@@ -57,6 +57,21 @@
                 "source": "https://github.com/ruckus/ruckusing-migrations"
             },
             "time": "2013-06-03 07:05:26"
+        },
+        {
+            "name": "ufds/libutil",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "http://dev.ufds.lan/git/libutil.git",
+                "reference": "92f1a7ecac5a696eaf310a336535883be10799c5"
+            },
+            "type": "library",
+            "license": [
+                "UFDS privat"
+            ],
+            "description": "Package of utils",
+            "time": "2014-03-10 12:29:53"
         }
     ],
     "packages-dev": [
@@ -67,7 +82,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ruckusing/ruckusing-migrations": 20
+        "ruckusing/ruckusing-migrations": 20,
+        "ufds/libutil": 20
     },
     "platform": [
 

@@ -5,7 +5,7 @@ require_once 'test/settings.php';
 class DbObjectCrudTest extends PHPUnit_Framework_TestCase {
   
   protected function tearDown() {
-    Db::exec("delete from sample");
+    Db::exec('defaultDb', "delete from sample");
   }
   
   public function testCrud() {

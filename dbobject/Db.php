@@ -1,115 +1,86 @@
 <?php
 
 class Db {
-  public static function buildWhere($qbe) {
-    $where = "";
-    foreach ($qbe as $name => $value) {
-      if ($value !== null) {
-        if ($where) {
-          $where .= " and ";
-        }
-        $where .= "$name = ?";
-      }
-    }
-    if ($where) {
-      $where = "where $where";
-    }
-    return $where;
-  }
+	
+	/* Builds a name = ?, ... list to be used with update
+	 * return: an array values from qbe
+	 */
+	public static function buildSetList($qbe) {
+		return implode(',', self::buildAssigments($qbe));
+	}
+	
+	/* Builds a name = ? and ... list to be used with where
+	 */
+	public static function buildConditionList($qbe) {
+		return implode(' and ', self::buildAssigments($qbe));
+	}
+	
+	/* Builds a name, ... list which can used with select or insert
+	 */
+	public static function buildNameList($qbe) {
+		return implode(',', array_keys($qbe));
+	}
+	
+	/* Builds a value, ... list which can used with values in insert
+	 */
+	public static function buildValueList($qbe) {
+		return implode(',', array_values($qbe));
+	}
 
+	/* Builds a value = ?,... list
+	 */
+	public static function buildAssigments($qbe) {
+		$assigments = array_keys($qbe);
+		for ($i = 0; $i < count($assigments); $i++) {
+			$assigments[$i] = $assigments[$i]." = ?";
+		}
+		return $assigments;
+	}
+	
   public static function buildSelect($table, $qbe, $orderby = array()) {
-    $where = self::buildWhere($qbe);
+    $where = self::buildConditionList($qbe);
     $orderby_s = "";
-    if ($orderby) {
+    if (count($orderby) > 0) {
+			var_dump($orderby);
       $orderby_s = " order by ".implode(',', $orderby);
     }
-    return "select * from ".strtolower($table)." $where $orderby_s";
+    return "select * from ".strtolower($table)." where $where $orderby_s";
   }
 
-  public static function buildValues($qbe) {
-    return array_values($qbe);  
-  }
-  
-  public static function select($table, $qbe) {
-    $sql = self::buildSelect($table, $qbe);
-    $values = self::buildValues($qbe);
-    return self::prepareQuery($sql, $values);
+  public static function select($table, $qbe, $orderby = array(), $dbName) {
+    $sql = self::buildSelect($table, $qbe, $orderby);
+    $values = self::buildValueList($qbe);
+    return self::prepareQuery($dbName, $sql, $values);
   }
 
-  public static function update(DbObject $object) {
-    $data = $object->getChanged();
-    $list = "";
-    $values = array();
-    foreach ($data as $name) {
-      $value = $object->$name;
-      if ($value !== null) {
-        if ($list) {
-          $list .= ", ";
-        }
-        $list .= "`$name` = ?";
-        $values[] = $value;
-      }
-    }
-    if ($list) {
-      $sql = "update ".strtolower(get_class($object))." set $list where uid = $object->uid";
-      self::prepareExec($sql, $values);
-    }
-  }
-
-  public static function insert(DbObject $object) {
-    $data = $object->getData();
-    $columns = "";
-    $placeHolders = "";
-    $values = array();
-    foreach ($data as $name => $value) {
-      if ($name == "uid") {
-        continue;
-      }
-      if ($value !== null) {
-        if (strlen($columns) > 0) {
-          $columns .= '`,`';
-          $placeHolders .= ',';
-        }
-        $columns .= $name;
-        $values[] = $value;
-        $placeHolders .= '?';
-      }
-    }
-    $sql = "insert into ".strtolower(get_class($object))."(`$columns`) values($placeHolders)";
-    $object->uid = self::prepareExec($sql, $values);
-  }
-
-  public static function delete(DbObject $object) {
-    self::deleteBy(get_class($object), array("uid" => $object->uid));
-  }
-
-  public static function deleteBy($table, array $qbe) {
+  public static function deleteBy($table, array $qbe, $dbName) {
     if (!$qbe) {
       return;
     }
-    $where = self::buildWhere($qbe);
-    self::deleteWhere($table, $where, $qbe);
+    $where = self::buildConditionList($qbe);
+    self::deleteWhere($table, $where, $qbe, $dbName);
   }
 
-  public static function deleteWhere($table, $where, $qbe = null) {
+  public static function deleteWhere($table, $where, $qbe, $dbName) {
     if (!$where) {
       return;
     }
-    $sql = "delete from ".strtolower($table). " $where";
+    $sql = "delete from ".strtolower($table). " where $where";
     if ($qbe == null) {
       self::exec($sql);
     }
     else {
-      self::prepareExec($sql, array_values($qbe));
+      self::prepareExec($dbName, $sql, array_values($qbe));
     }
   }
 
-  public static function prepareExec($sql, $values) {
-    if (Config::dbDebug) {
-      syslog(LOG_DEBUG, "sql: $sql");
-      syslog(LOG_DEBUG, "values: ".implode(';', $values));
+  public static function prepareExec($dbName, $sql, $values = array()) {
+		$log = DiContainer::instance()->log;
+		if ($log != null) {
+			$log->debug(__CLASS__, "$dbName: $sql");
+			$log->debug(__CLASS__, "$dbName: ".implode(';', $values));
     }
-    $db = DbFactory::getConnect();
+    $db = DbFactory::getConnection($dbName);
     $stmt = $db->prepare($sql);
     if ($stmt === false) {
       throw new RuntimeException("prepare statement failed");
@@ -118,12 +89,13 @@ class Db {
     return $db->lastInsertId();
   }
 
-  public static function prepareQuery($sql, $values) {
-    if (Config::dbDebug) {
-      syslog(LOG_DEBUG, "sql: $sql");
-      syslog(LOG_DEBUG, "values: ".implode(';', $values));
+  public static function prepareQuery($dbName, $sql, $values) {
+		$log = DiContainer::instance()->log;
+		if ($log != null) {
+			$log->debug(__CLASS__, "$dbName: $sql");
+			$log->debug(__CLASS__, "$dbName: ".implode(';', $values));
     }
-    $db = DbFactory::getConnect();
+    $db = DbFactory::getConnection($dbName);
     $stmt = $db->prepare($sql);
     if ($stmt === false) {
       throw new RuntimeException("prepare statement failed");
@@ -132,28 +104,23 @@ class Db {
     return new DbCursor($stmt);
   }
 
-  public static function exec($sql) {
-    if (Config::dbDebug) {
-      syslog(LOG_DEBUG, $sql);
+  public static function exec($dbName, $sql) {
+		$log = DiContainer::instance()->log;
+		if ($log != null) {
+			$log->debug(__CLASS__, "$dbName: $sql");
     }
-    $db = DbFactory::getConnect();
+    $db = DbFactory::getConnection($dbName);
     $db->exec($sql);
     return $db->lastInsertId();
   }
 
-  public static function query($sql) {
-    if (Config::dbDebug) {
-      syslog(LOG_DEBUG, $sql);
+  public static function query($dbName, $sql) {
+		$log = DiContainer::instance()->log;
+		if ($log != null) {
+			$log->debug("$dbName: $sql");
     }
-    $db = DbFactory::getConnect();
+    $db = DbFactory::getConnection($dbName);
     return new DbCursor($db->query($sql));
-  }
-  
-  public static function dbtype() {
-    $db = DbFactory::getConnect();
-    $type = $db->getAttribute(PDO::ATTR_DRIVER_NAME);
-    syslog(LOG_DEBUG, "database: $type");
-    return $type;
   }
 }
 
