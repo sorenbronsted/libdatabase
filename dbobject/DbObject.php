@@ -1,7 +1,7 @@
 <?php
 
 abstract class DbObject {
-	const defaultDb = 'defaultDb';
+	protected static $db = 'defaultDb';
 	private $data = array();
 	private $changed = array();
 
@@ -53,17 +53,17 @@ abstract class DbObject {
 	
 	protected abstract function getProperties();
 	
-  public function save($db = self::defaultDb) {
+  public function save() {
     if ($this->uid) {
-      $this->update($db);
+      $this->update();
     }
     else {
-      $this->insert($db);
+      $this->insert();
     }
 		$this->changed = array();
   }
   
-  public function update($db = self::defaultDb) {
+  public function update() {
     $data = $this->getChanged();
 		unset($data['uid']);
 		if (count($data) <= 0) {
@@ -75,41 +75,41 @@ abstract class DbObject {
 		}
 		$list = Db::buildSetList($qbe);
 		$sql = "update ".strtolower(get_class($this))." set $list where uid = $this->uid";
-		Db::prepareExec($db, $sql, array_values($qbe));
+		Db::prepareExec(static::$db, $sql, array_values($qbe));
   }
 
-  public function insert($db = self::defaultDb) {
+  public function insert() {
     $data = $this->getData();
 		unset($data['uid']);
 		$columns = Db::buildNameList($data);
 		$values = array_values($data);
 		$placeHolders = implode(',', array_fill(0, count(array_keys($data)), '?'));
     $sql = "insert into ".strtolower(get_class($this))."($columns) values($placeHolders)";
-    $this->uid = Db::prepareExec($db, $sql, $values);
+    $this->uid = Db::prepareExec(static::$db, $sql, $values);
   }
 
-  public function destroy($db = self::defaultDb) {
-    Db::deleteBy(get_class($this), array("uid" => $this->uid), $db);
+  public function destroy() {
+    Db::deleteBy(get_class($this), array("uid" => $this->uid), static::$db);
   }
 
-  public static function destroyBy(array $where, $db = self::defaultDb) {
-    Db::deleteBy(get_called_class(), $where, $db);
+  public static function destroyBy(array $where) {
+    Db::deleteBy(get_called_class(), $where, static::$db);
   }
 
-  public static function getAll(array $orderby = array(), $db = self::defaultDb) {
-    return self::get(array(), $orderby, $db);
+  public static function getAll(array $orderby = array()) {
+    return self::get(array(), $orderby);
   }
 
-  public static function getByUid($uid, $db = self::defaultDb) {
-    return self::getOneBy(array("uid" => $uid), $db);
+  public static function getByUid($uid) {
+    return self::getOneBy(array("uid" => $uid));
   }
 
-  public static function getBy(array $where, array $orderby = array(), $db = self::defaultDb) {
-    return self::get($where, $orderby, $db);
+  public static function getBy(array $where, array $orderby = array()) {
+    return self::get($where, $orderby);
   }
 
-  public static function getOneBy(array $where, $db = self::defaultDb) {
-    $result = self::get($where, array(), $db);
+  public static function getOneBy(array $where) {
+    $result = self::get($where, array());
 		return self::verifyOne($result);
   }
 
@@ -125,26 +125,26 @@ abstract class DbObject {
 		}
   }
 
-  public static function get($qbe = array(), $orderby = array(), $db = self::defaultDb) {
+  public static function get($qbe = array(), $orderby = array()) {
     $sql = Db::buildSelect(strtolower(get_called_class()), $qbe, $orderby);
-    return self::getObjects($sql, $qbe, $db);
+    return self::getObjects($sql, $qbe);
   }
 
-	public static function getWhere($where, $db = self::defaultDb) {
+	public static function getWhere($where) {
 		$class = strtolower(get_called_class());
 		$sql = "select * from $class where $where";
-		return self::getObjects($sql, null, $db);
+		return self::getObjects($sql);
 	}
 	
-  public static function getObjects($sql, $qbe = null, $db = self::defaultDb) {
+  public static function getObjects($sql, $qbe) {
     $result = array();
 		$class = get_called_class();
 		$cursor = null;
 		if ($qbe != null) {
-			$cursor = Db::prepareQuery($db, $sql, array_values($qbe));
+			$cursor = Db::prepareQuery(static::$db, $sql, array_values($qbe));
 		}
 		else {
-			$cursor = Db::query($db, $sql);
+			$cursor = Db::query(static::$db, $sql);
 		}
     while ($cursor->hasNext()) {
       $row = $cursor->next();

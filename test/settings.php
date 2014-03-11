@@ -19,6 +19,6 @@ spl_autoload_register(function($class) {
 });
 
 DiContainer::instance()->config = new Config2('test/util/config.ini');
-DiContainer::instance()->log = new Log();
+DiContainer::instance()->log = Log::createFromConfig();
 
 ?>

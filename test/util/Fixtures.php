@@ -16,6 +16,11 @@ class Fixtures {
     return $sample;
   }
   
+	public static function newSampleSqlite() {
+		$object = new SampleSqlite();
+		$object->name = 'test';
+		return $object;
+	}
 }
 
 ?>

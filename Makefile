@@ -10,7 +10,7 @@ dist:
 
 clean:
 	rm -fr dist
-	bin/clean.sh
+	php bin/clean.php
 
 test:
 	phpunit test

@@ -1,6 +1,8 @@
 <?php
 
-require_once "test/util/Config.php";
+require_once "test/settings.php";
+
+$config = DiContainer::instance()->config;
 
 //----------------------------
 // DATABASE CONFIGURATION
@@ -8,12 +10,13 @@ require_once "test/util/Config.php";
 return array(
   'db' => array(
       'development' => array(
-      'type'      => Config::dbDriver,
-      'host'      => Config::dbHost,
-      'port'      => 3306,
-      'database'  => Config::dbName,
-      'user'      => Config::dbUser,
-      'password'  => Config::dbPassword
+      'type'      => $config->defaultDb_driver,
+      'host'      => $config->defaultDb_host,
+      'port'      => $config->defaultDb_post,
+      'database'  => $config->defaultDb_name,
+      'user'      => $config->defaultDb_user,
+      'password'  => $config->defaultDb_password,
+      'charset'   => $config->defaultDb_charset,
     ),
   ),
   'migrations_dir' => RUCKUSING_WORKING_BASE . '/database',

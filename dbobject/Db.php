@@ -117,7 +117,7 @@ class Db {
   public static function query($dbName, $sql) {
 		$log = DiContainer::instance()->log;
 		if ($log != null) {
-			$log->debug("$dbName: $sql");
+			$log->debug(__CLASS__, "$dbName: $sql");
     }
     $db = DbFactory::getConnection($dbName);
     return new DbCursor($db->query($sql));

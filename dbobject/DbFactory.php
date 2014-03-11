@@ -13,23 +13,28 @@ class DbFactory {
 		if ($config == null) {
 			throw new Exception("Config in DiContainer is not set");
 		}
-		foreach(array('driver','host','user','password') as $configName) {
-			if ($config->{$name."_".$configName} == null) {
-				throw new Exception("$configName in $name is not set");
-			}
+		if ($config->{$name."_driver"} == null) {
+			throw new Exception("driver in $name is not set");
 		}
 		
-		$connect = $config->{$name.'_driver'}.':host='.$config->{$name.'_host'}.';dbname='.$config->{$name.'_name'};
-		$options = array();
-		if ($config->{$name.'_driver'} == "mysql") {
-			$options = array(
-				PDO::ATTR_PERSISTENT => true,
-				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
-			);
-		}
-		$pdo = new PDO($connect, $config->{$name.'_user'}, $config->{$name.'_password'}, $options);
+		$dsn = self::dsn($name, $config);
+		$options[PDO::ATTR_PERSISTENT] = true;
+		$pdo = new PDO($dsn, $config->{$name.'_user'}, $config->{$name.'_password'}, $options);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		self::$connections[$name] = $pdo;
 		return self::$connections[$name];
   }
+	
+	private static function dsn($name, $config) {
+		switch ($config->{$name.'_driver'}) {
+			case 'mysql':
+				return $config->{$name.'_driver'}.
+					':host='.$config->{$name.'_host'}.
+					';dbname='.$config->{$name.'_name'}.
+					';charset='.$config->{$name.'_charset'};
+			case 'sqlite':
+				return $config->{$name.'_driver'}.
+					':'.$config->{$name.'_name'};
+		}
+	}
 }
