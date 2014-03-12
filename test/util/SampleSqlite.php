@@ -2,7 +2,7 @@
 
 class SampleSqlite extends DbObject {
 	// This the overridden database name
-  protected static $db = 'sqlite';
+  public static $db = 'sqlite';
 	
   private static $properties = array(
     'uid' => Property::INT,

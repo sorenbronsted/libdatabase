@@ -1,7 +1,7 @@
 <?php
 
 abstract class DbObject {
-	protected static $db = 'defaultDb';
+	public static $db = 'defaultDb';
 	private $data = array();
 	private $changed = array();
 
@@ -136,7 +136,7 @@ abstract class DbObject {
 		return self::getObjects($sql);
 	}
 	
-  public static function getObjects($sql, $qbe) {
+  public static function getObjects($sql, $qbe = null) {
     $result = array();
 		$class = get_called_class();
 		$cursor = null;

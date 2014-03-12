@@ -39,12 +39,14 @@ class Db {
 	
   public static function buildSelect($table, $qbe, $orderby = array()) {
     $where = self::buildConditionList($qbe);
-    $orderby_s = "";
+		if (strlen($where) > 0) {
+			$where = ' where '.$where;
+		}
+    $sOrderby = "";
     if (count($orderby) > 0) {
-			var_dump($orderby);
-      $orderby_s = " order by ".implode(',', $orderby);
+      $sOrderby = " order by ".implode(',', $orderby);
     }
-    return "select * from ".strtolower($table)." where $where $orderby_s";
+    return "select * from ".strtolower($table)." $where $sOrderby";
   }
 
   public static function select($table, $qbe, $orderby = array(), $dbName) {
