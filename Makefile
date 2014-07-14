@@ -31,7 +31,7 @@ checkout:
 	git pull
 
 coverage:
-	phpunit --coverage-html doc/coverage test
+	php bin/phpunit.phar --coverage-html doc/coverage test
 
 depend:
 	bin/depend.sh

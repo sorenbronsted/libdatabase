@@ -32,11 +32,15 @@ abstract class DbObject {
 			}
 		}
 	}
-	
-  public function setData(array $data) {
-	  foreach (array_keys($data) as $name) {
+
+	public function __isset($name) {
+		return isset($this->data[$name]);
+	}
+
+	public function setData(array $data) {
+		foreach (array_keys($data) as $name) {
 			$this->$name = $data[$name]; // This will trigger __set
-	  }
+		}
 	}
 
 	public function getChanged() {

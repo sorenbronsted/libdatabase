@@ -1,6 +1,4 @@
 <?php
-
-require_once 'PHPUnit/Autoload.php';
 require_once 'test/settings.php';
 
 class PropertyIsEmptyTest extends PHPUnit_Framework_TestCase {

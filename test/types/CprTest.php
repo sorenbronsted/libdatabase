@@ -1,5 +1,4 @@
 <?php
-require_once 'PHPUnit/Autoload.php';
 require_once 'test/settings.php';
 
 class CprTest extends PHPUnit_Framework_TestCase {

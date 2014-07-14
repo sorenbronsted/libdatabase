@@ -1,5 +1,4 @@
 <?php
-require_once 'PHPUnit/Autoload.php';
 require_once 'test/settings.php';
 
 class DateTest extends PHPUnit_Framework_TestCase {

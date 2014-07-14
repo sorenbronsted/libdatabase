@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "59376b4355f00cd0d85ee6fcd6f1a92a",
     "packages": [
@@ -64,14 +65,14 @@
             "source": {
                 "type": "git",
                 "url": "http://dev.ufds.lan/git/libutil.git",
-                "reference": "92f1a7ecac5a696eaf310a336535883be10799c5"
+                "reference": "6c8022c0d179128386e04574e276328c5bb365d4"
             },
             "type": "library",
             "license": [
                 "UFDS privat"
             ],
             "description": "Package of utils",
-            "time": "2014-03-10 12:29:53"
+            "time": "2014-06-13 11:45:57"
         }
     ],
     "packages-dev": [

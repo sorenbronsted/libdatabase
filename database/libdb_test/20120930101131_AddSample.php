@@ -1,6 +1,6 @@
 <?php
 
-class AddSample extends Ruckusing_BaseMigration {
+class AddSample extends Ruckusing_Migration_Base {
 
 	private $table = "sample";
 	

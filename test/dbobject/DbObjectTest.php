@@ -1,5 +1,4 @@
 <?php
-require_once 'PHPUnit/Autoload.php';
 require_once 'test/settings.php';
 
 class DbObjectTest extends PHPUnit_Framework_TestCase {
@@ -26,6 +25,14 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
     $sample = Fixtures::newSample();
     $sample->unknown = "test";
     $this->assertEquals(null, $sample->unknown);
+  }
+
+  public function testEmpty() {
+  	$sample = Fixtures::newSample();
+  	$this->assertFalse(empty($sample->cpr));
+  	$sample->cpr = '';
+  	$this->assertTrue(empty($sample->cpr));
+  	$this->assertTrue(empty($sample->unknown));
   }
 
   public function testMultipleUpdates() {
