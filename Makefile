@@ -13,7 +13,7 @@ clean:
 	php bin/clean.php
 
 test:
-	phpunit test
+	bin/phpunit.phar test
 
 migrate:
 	bin/dbmigrate.sh db:migrate $(arg)
@@ -35,3 +35,6 @@ coverage:
 
 depend:
 	bin/depend.sh
+
+update-depend:
+	bin/depend.sh update
