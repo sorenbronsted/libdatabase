@@ -34,7 +34,7 @@ coverage:
 	php bin/phpunit.phar --coverage-html doc/coverage test
 
 depend:
-	bin/depend.sh
+	bin/depend.sh install
 
 update-depend:
 	bin/depend.sh update
