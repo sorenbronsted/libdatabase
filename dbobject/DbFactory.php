@@ -14,7 +14,7 @@ class DbFactory {
 			throw new Exception("Config in DiContainer is not set");
 		}
 		if ($config->{$name."_driver"} == null) {
-			throw new Exception("driver in $name is not set");
+			throw new Exception("driver with $name is not found");
 		}
 		
 		$dsn = self::dsn($name, $config);
