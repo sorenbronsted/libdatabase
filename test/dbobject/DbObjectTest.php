@@ -16,7 +16,7 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
     
     $sample = Sample::getByUid($sample->uid);
     $sample->case_number = "10/01";
-    $this->assertTrue($sample->hasFieldChanged('case_number'));
+    $this->assertFalse($sample->hasFieldChanged('case_number'));
     
     $sample->destroy();
   }
@@ -59,6 +59,7 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
 	public function testSetDataStringUid() {
 		$data = array('uid' => 'key1');
 		$object = new SampleWithStringUid();
+		$this->assertEquals(0, $object->uid);
 		$object->setData($data);
 		$this->assertEquals($data['uid'], $object->uid);
 		$data = array('uid' => '1');
@@ -70,6 +71,31 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
 		$data = array('uid' => null);
 		$object->setData($data);
 		$this->assertEquals($data['uid'], $object->uid);
+	}
+	
+	public function testChanged() {
+    $sample = Fixtures::newSample();
+		$sample->save();
+		
+    $sample->case_number = '10/01';
+    $sample->date_value = '21-10-2012';
+    $sample->datetime_value = '21-10-2012 11:11:11';
+    $sample->cpr = '0102031234';
+    $sample->int_value = 117;
+    $sample->string_value = "test's";
+    $sample->decimal_value = 1234567.89;
+    $sample->boolean_value = "1";
+		$this->assertEquals(0, count($sample->getChanged()));
+
+    $sample->case_number = '10/02';
+    $sample->date_value = '21-10-2013';
+    $sample->datetime_value = '21-10-2012 11:11:12';
+    $sample->cpr = '0102031235';
+    $sample->int_value = "118";
+    $sample->string_value = "tests";
+    $sample->decimal_value = 1234567.99;
+    $sample->boolean_value = "2";
+		$this->assertEquals(8, count($sample->getChanged()));
 	}
 }
 
