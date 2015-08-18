@@ -97,6 +97,35 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
     $sample->boolean_value = "2";
 		$this->assertEquals(8, count($sample->getChanged()));
 	}
+
+	public function testSelect() {
+		$sample = Fixtures::newSample();
+		$sample->save();
+		$qbe = array('uid' => $sample->uid);
+		$orderby = array('uid');
+
+		$cursor = Db::select('sample', $qbe, $orderby, DbObject::$db);
+		$this->assertTrue($cursor->hasNext());
+	}
+
+	public function testGetAll() {
+		$sample = Fixtures::newSample();
+		$sample->save();
+		$objects = Sample::getAll(array('uid'));
+		$this->assertEquals(1, count($objects));
+	}
+
+	public function testGetWhere() {
+		$sample = Fixtures::newSample();
+		$sample->save();
+		$objects = Sample::getWhere("uid = ".$sample->uid);
+		$this->assertEquals(1, count($objects));
+	}
+
+	public function testGetProperties() {
+		$sample = Fixtures::newSample();
+		$this->assertEquals(9, count($sample->getProperties()));
+	}
 }
 
 ?>

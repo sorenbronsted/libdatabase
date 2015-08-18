@@ -51,8 +51,7 @@ class Db {
 
   public static function select($table, $qbe, $orderby = array(), $dbName) {
     $sql = self::buildSelect($table, $qbe, $orderby);
-    $values = self::buildValueList($qbe);
-    return self::prepareQuery($dbName, $sql, $values);
+    return self::prepareQuery($dbName, $sql, array_values($qbe));
   }
 
   public static function deleteBy($table, array $qbe, $dbName) {
@@ -91,7 +90,7 @@ class Db {
     return $db->lastInsertId();
   }
 
-  public static function prepareQuery($dbName, $sql, $values) {
+  public static function prepareQuery($dbName, $sql, array $values = array()) {
 		$log = DiContainer::instance()->log;
 		if ($log != null) {
 			$log->debug(__CLASS__, "$dbName: $sql");
