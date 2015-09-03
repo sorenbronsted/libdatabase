@@ -29,8 +29,13 @@ class Property {
       case self::DECIMAL:
         // If value contain an comma ',' then this value i properly a danish decimal number
         // on the form 1.234,5678
-        if (is_string($value) && strpos($value, ',')) {
-          $result = str_replace(',', '.', str_replace('.','',$value));
+        if (is_string($value)) {
+          if (strpos($value, ',')) {
+            $result = floatval(str_replace(',', '.', str_replace('.','',$value)));
+          }
+          else {
+            $result = floatval($value);
+          }
         }
         break;
       case self::DATE:
@@ -61,10 +66,10 @@ class Property {
         break;
       case self::PERCENT:
         if (is_string($value) && strpos($value, ',')) {
-          $result = str_replace(',', '.', str_replace('.','', str_replace('%', '', $value)));
+          $result = floatval(str_replace(',', '.', str_replace('.','', str_replace('%', '', $value))));
         }
         else if (is_string($value) && strpos($value, '%')) {
-          $result = str_replace('%', '', $value);
+          $result = floatval(str_replace('%', '', $value));
         }
         break;
       default:

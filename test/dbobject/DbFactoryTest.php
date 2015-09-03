@@ -19,5 +19,3 @@ class DbFactoryTest extends PHPUnit_Framework_TestCase {
   }
 
 }
-
-?>
