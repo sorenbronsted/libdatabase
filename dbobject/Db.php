@@ -21,12 +21,6 @@ class Db {
 		return implode(',', array_keys($qbe));
 	}
 	
-	/* Builds a value, ... list which can used with values in insert
-	 */
-	public static function buildValueList($qbe) {
-		return implode(',', array_values($qbe));
-	}
-
 	/* Builds a value = ?,... list
 	 */
 	public static function buildAssigments($qbe) {
