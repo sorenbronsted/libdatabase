@@ -122,10 +122,33 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($objects));
 	}
 
+	public function testGetQbe() {
+		$sample = Fixtures::newSample();
+		$sample->date_value = null;
+		$sample->save();
+		$objects = Sample::getBy(array('int_value' => 117));
+		$this->assertEquals(1, count($objects));
+		$objects = Sample::getBy(array('string_value' => 'test%'));
+		$this->assertEquals(1, count($objects));
+		$objects = Sample::getBy(array('date_value' => null));
+		$this->assertEquals(1, count($objects));
+	}
+
+	public function testSetNullValues() {
+		$sample = Fixtures::newSample();
+		$sample->save();
+
+		$object = Sample::getByUid($sample->uid);
+		$this->assertNotNull($object->date_value);
+		$object->date_value = null;
+		$object->save();
+
+		$object = Sample::getByUid($sample->uid);
+		$this->assertNull($object->date_value);
+	}
+
 	public function testGetProperties() {
 		$sample = Fixtures::newSample();
 		$this->assertEquals(9, count($sample->getProperties()));
 	}
 }
-
-?>

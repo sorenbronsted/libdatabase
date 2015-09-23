@@ -12,7 +12,7 @@ class Db {
 	/* Builds a name = ? and ... list to be used with where
 	 */
 	public static function buildConditionList($qbe) {
-		return implode(' and ', self::buildAssigments($qbe));
+		return implode(' and ', self::buildExpression($qbe));
 	}
 	
 	/* Builds a name, ... list which can used with select or insert
@@ -36,8 +36,25 @@ class Db {
 		}
 		return $assigments;
 	}
-	
-  public static function buildSelect($table, $qbe, $orderby = array()) {
+
+	/* Builds a value op ?,... list where op can be =, is and like
+	 */
+	public static function buildExpression($qbe) {
+		$assigments = array();
+		foreach($qbe as $name => $value) {
+			$op = '=';
+			if ($value === null) {
+				$op  = 'is';
+			}
+			else if (strpos($value, '%') !== false) {
+				$op = 'like';
+			}
+			$assigments[] = "$name $op ?";
+		}
+		return $assigments;
+	}
+
+	public static function buildSelect($table, $qbe, $orderby = array()) {
     $where = self::buildConditionList($qbe);
 		if (strlen($where) > 0) {
 			$where = ' where '.$where;
