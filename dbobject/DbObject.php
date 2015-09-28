@@ -25,13 +25,13 @@ abstract class DbObject {
 			return; // Silently ignore unknown properties
 		}
 		$newValue = Property::getValue($properties[$name], $value);
-		if (is_null($this->data[$name]) ||
-				is_null($newValue) ||
-				(string)$this->data[$name] != $newValue) {
-			$this->data[$name] = $newValue;
-			if ($name != "uid" &&	!$this->hasFieldChanged($name)) {
-				$this->changed[] = $name;
-			}
+		// If new and existing value are the same no assignment is needed
+		if (Property::isEqual($properties[$name], $this->data[$name], $newValue)) {
+			return;
+		}
+		$this->data[$name] = $newValue;
+		if ($name != "uid" &&	!$this->hasFieldChanged($name)) {
+			$this->changed[] = $name;
 		}
 	}
 

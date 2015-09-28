@@ -101,4 +101,23 @@ class Property {
     }
     return $result;
   }
+
+  public static function isEqual($type, $value1, $value2) {
+		if (is_null($value1) || is_null($value2)) {
+			return $value1 == $value2;
+		}
+    switch ($type) {
+      case self::INT:
+      case self::BOOLEAN:
+      case self::DECIMAL:
+      case self::PERCENT:
+      case self::STRING:
+        return $value1 === $value2;
+      case self::CPR:
+      case self::TIMESTAMP:
+      case self::DATE:
+      case self::CASE_NUMBER:
+        return (is_object($value1) && is_object($value2)) ? $value1->isEqual($value2) : false;
+    }
+  }
 }

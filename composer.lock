@@ -65,14 +65,14 @@
             "source": {
                 "type": "git",
                 "url": "http://dev.ufds.lan/git/libtypes.git",
-                "reference": "aa0a32fdf8e511d69fa16b1c7c769833acedcd57"
+                "reference": "cf897743c27e5e1fda66e2635876c1e575aae0e3"
             },
             "type": "library",
             "license": [
                 "UFDS privat"
             ],
             "description": "UFDS standard types",
-            "time": "2015-03-18 12:20:08"
+            "time": "2015-09-28 10:40:33"
         },
         {
             "name": "ufds/libutil",
@@ -99,6 +99,7 @@
         "ufds/libtypes": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }

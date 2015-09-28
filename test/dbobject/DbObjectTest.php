@@ -76,7 +76,8 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
 	public function testChanged() {
     $sample = Fixtures::newSample();
 		$sample->save();
-		
+
+		// Should not change when assigned same value
     $sample->case_number = '10/01';
     $sample->date_value = '21-10-2012';
     $sample->datetime_value = '21-10-2012 11:11:11';
