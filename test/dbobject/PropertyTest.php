@@ -53,6 +53,10 @@ class PropertyTest extends PHPUnit_Framework_TestCase {
 		$v2 = Property::getValue(Property::INT, '1');
 		$this->assertTrue(Property::isEqual(Property::INT, $v1, $v2));
 
+		$v1 = Property::getValue(Property::INT, 0);
+		$v2 = Property::getValue(Property::INT, null);
+		$this->assertFalse(Property::isEqual(Property::INT, $v1, $v2));
+
 		$v1 = Property::getValue(Property::DATE, '28-09-2015');
 		$v2 = Property::getValue(Property::DATE, '28-09-2015');
 		$this->assertTrue(Property::isEqual(Property::DATE, $v1, $v2));

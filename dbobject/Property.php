@@ -104,7 +104,7 @@ class Property {
 
   public static function isEqual($type, $value1, $value2) {
 		if (is_null($value1) || is_null($value2)) {
-			return $value1 == $value2;
+			return $value1 === $value2;
 		}
     switch ($type) {
       case self::INT:
