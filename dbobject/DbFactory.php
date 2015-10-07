@@ -18,23 +18,40 @@ class DbFactory {
 		}
 		
 		$dsn = self::dsn($name, $config);
+		if (empty($dsn)) {
+			throw new ConnectionException('dsn is empty', __FILE__, __LINE__);
+		}
 		$options[PDO::ATTR_PERSISTENT] = true;
 		$pdo = new PDO($dsn, $config->{$name.'_user'}, $config->{$name.'_password'}, $options);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		if ($config->{$name.'_schema'} != null) {
+			$pdo->exec('set schema '.$config->{$name.'_schema'});
+		}
 		self::$connections[$name] = $pdo;
 		return self::$connections[$name];
   }
 	
 	private static function dsn($name, $config) {
+		$result = null;
 		switch ($config->{$name.'_driver'}) {
 			case 'mysql':
-				return $config->{$name.'_driver'}.
+				$result = $config->{$name.'_driver'}.
 					':host='.$config->{$name.'_host'}.
 					';dbname='.$config->{$name.'_name'}.
 					';charset='.$config->{$name.'_charset'};
+				break;
 			case 'sqlite':
-				return $config->{$name.'_driver'}.
+				$result = $config->{$name.'_driver'}.
 					':'.$config->{$name.'_name'};
+				break;
+			case 'ibm':
+				$result = 'ibm:driver={ibm db2 odbc driver}'.
+					';database='.$config->{$name.'_name'}.
+					';hostname='.$config->{$name.'_host'}.
+					';port='.$config->{$name.'_port'}.
+				  ';protocol=tcpip';
+				break;
 		}
+		return $result;
 	}
 }

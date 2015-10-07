@@ -3,9 +3,6 @@ require_once 'test/settings.php';
 
 class DbFactoryTest extends PHPUnit_Framework_TestCase {
 
-  protected function tearDown() {
-  }
-
   public function testMysql() {
 		$cur = Db::query('defaultDb', "select 1 as value");
 		$row = $cur->next();
@@ -18,4 +15,20 @@ class DbFactoryTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $row['value']);
   }
 
+	public function testDb2() {
+		$cur = Db::query('db2', "select 1 as value from sysibm.sysdummy1");
+		//$cur = Db::query('db2', "select count(*) as value from skadelf");
+		$row = $cur->next();
+		$this->assertEquals(1, $row['VALUE']);
+	}
+
+	public function testUnknownDriver() {
+		try {
+			DbFactory::getConnection('unknown');
+			$this->fail('Expected exception');
+		}
+		catch(ConnectionException $e) {
+			$this->assertContains('dsn', $e->getMessage());
+		}
+	}
 }

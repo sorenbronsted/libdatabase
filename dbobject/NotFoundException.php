@@ -4,4 +4,3 @@ class NotFoundException extends ErrorException {
 		parent::__construct("$class not found", 0, 0, $filename, $lineno);
 	}
 }
-?>
