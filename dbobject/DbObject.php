@@ -147,7 +147,10 @@ abstract class DbObject {
 		$class = get_called_class();
 		$cursor = null;
 		if ($qbe != null) {
-			$cursor = Db::prepareQuery(static::$db, $sql, array_values($qbe));
+			if (strpos($sql, ':') === false ) {
+				$qbe = array_values($qbe);
+			}
+			$cursor = Db::prepareQuery(static::$db, $sql, $qbe);
 		}
 		else {
 			$cursor = Db::query(static::$db, $sql);
