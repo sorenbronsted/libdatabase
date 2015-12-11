@@ -5,22 +5,19 @@
   "require": {
     "ruckusing/ruckusing-migrations" : "dev-master",
     "ufds/libutil": "dev-master",
-    "ufds/libtypes": "dev-master"
+    "ufds/libtypes": "dev-master",
+    "ufds/libcommon": "dev-master"
   },
   
   "repositories": [
-    {
-      "type": "vcs",
-      "url": "http://dev.ufds.lan/git/ruckusing-migrations.git"
-    },
-    {
-      "type": "vcs",
-      "url": "http://dev.ufds.lan/git/libutil.git"
-    },
-    {
-      "type": "vcs",
-      "url": "http://dev.ufds.lan/git/libtypes.git"
-    }
-  ]
+    {"type": "vcs", "url": "http://dev.ufds.lan/git/ruckusing-migrations.git"},
+    {"type": "vcs", "url": "http://dev.ufds.lan/git/libutil.git"},
+    {"type": "vcs", "url": "http://dev.ufds.lan/git/libtypes.git"},
+    {"type": "vcs", "url": "http://dev.ufds.lan/git/libcommon.git"}
+  ],
+
+  "autoload": {
+    "classmap": ["dbobject/"]
+  }
 }
 

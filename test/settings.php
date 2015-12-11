@@ -1,24 +1,12 @@
 <?php
 
-spl_autoload_register(function($class) {
-	$paths = array(
-  "dbobject",
-  "test/util",
-	"vendor/ufds/libutil/config",
-	"vendor/ufds/libutil/di",
-	"vendor/ufds/libutil/log",
-	"vendor/ufds/libtypes/types",
-	);
-
-	foreach($paths as $path) {
-		$fullname = $path.'/'.$class.'.php';
-		if (is_file($fullname)) {
-			include($fullname);
-			return true;
-		}
-	}
-	return false;
-});
+$loader = require 'vendor/autoload.php';
+$loader->addClassMap(array(
+	'Fixtures' => 'test/util/Fixtures.php',
+	'Sample' => 'test/util/Sample.php',
+	'SampleSqlite' => 'test/util/SampleSqlite.php',
+	'SampleWithStringUid' => 'test/util/SampleWithStringUid.php',
+));
 
 date_default_timezone_set("Europe/Copenhagen");
 error_reporting(E_ALL|E_STRICT);
