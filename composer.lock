@@ -1,18 +1,25 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "163e55b245d65244066e6f4be0103e77",
+    "hash": "528e81dbddae54db0cd1457486b7866a",
+    "content-hash": "d1064444fb3d45351b0dc6ca85c444bc",
     "packages": [
         {
             "name": "ruckusing/ruckusing-migrations",
-            "version": "dev-master",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "http://dev.ufds.lan/git/ruckusing-migrations.git",
-                "reference": "98022aa5c1bccf3f905db6d6bbe3da7f1e21b46f"
+                "url": "https://github.com/ruckus/ruckusing-migrations.git",
+                "reference": "853d95ecf2124b109fafbd83b1685b614f8137ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ruckus/ruckusing-migrations/zipball/853d95ecf2124b109fafbd83b1685b614f8137ab",
+                "reference": "853d95ecf2124b109fafbd83b1685b614f8137ab",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
@@ -30,6 +37,7 @@
                     "Task": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -52,19 +60,14 @@
                 "ruckusing",
                 "task"
             ],
-            "support": {
-                "email": "codycaughlan@gmail.com",
-                "issues": "https://github.com/ruckus/ruckusing-migrations/issues",
-                "source": "https://github.com/ruckus/ruckusing-migrations"
-            },
-            "time": "2013-06-03 07:05:26"
+            "time": "2015-03-18 15:29:47"
         },
         {
             "name": "ufds/libcommon",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "http://dev.ufds.lan/git/libcommon.git",
+                "url": "http://dev/git/ufds/libcommon.git",
                 "reference": "dafdfe8f7ed7891a6c56369ab2aef4071cee0d5f"
             },
             "type": "library",
@@ -84,7 +87,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "http://dev.ufds.lan/git/libtypes.git",
+                "url": "http://dev/git/ufds/libtypes.git",
                 "reference": "5420fa3116083bfa47c4755363fa622bc660e7c4"
             },
             "require": {
@@ -107,7 +110,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "http://dev.ufds.lan/git/libutil.git",
+                "url": "http://dev/git/ufds/libutil.git",
                 "reference": "673c8913dee539ce83891a9270cfc205a6b697f0"
             },
             "type": "library",
@@ -130,7 +133,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ruckusing/ruckusing-migrations": 20,
         "ufds/libutil": 20,
         "ufds/libtypes": 20,
         "ufds/libcommon": 20

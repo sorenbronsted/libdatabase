@@ -2,7 +2,7 @@
 
 SHELL=/bin/bash
 
-all: checkout depend clean migrate coverage
+all: depend clean migrate coverage
 	echo "Up-to-date"
 
 dist:	
@@ -26,9 +26,6 @@ generate:
 
 install:
 	bin/install.sh
-
-checkout:
-	git pull
 
 coverage:
 	php bin/phpunit.phar --coverage-html doc/coverage test

@@ -12,7 +12,7 @@ date_default_timezone_set("Europe/Copenhagen");
 error_reporting(E_ALL|E_STRICT);
 openlog("libDb", LOG_PID | LOG_CONS, LOG_LOCAL0);
 
-DiContainer::instance()->config = new Config2('test/util/config.ini');
+DiContainer::instance()->config = new Config2('test/config.ini');
 DiContainer::instance()->log = Log::createFromConfig();
 
 ?>
