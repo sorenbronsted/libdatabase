@@ -1,6 +1,12 @@
 .idea
-*.komodoproject
-vendor/
+debian/files
+debian/*debhelper*
+debian/*substvars*
 doc/coverage
-logs/
-test/util/Config.php
+vendor
+public/client/.packages
+public/client/packages
+public/client/main.dart.*
+*.sql.gz
+*.tgz
+*~

@@ -10,4 +10,4 @@ is null or empty the property is set to that value and no object is created
 
 Current the orm supports mysql, sqlite and db2. The last one need pdo_ibm pecl
 module installed. Version 1.3.3 does not support php5 on ubuntu so an UFDS
-packages 'pdoibm' exists on dev.ufds.lan.
+packages 'pdoibm' exists on dev.

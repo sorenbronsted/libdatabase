@@ -1,8 +1,5 @@
 <?php
-
-require_once "test/settings.php";
-
-$config = DiContainer::instance()->config;
+require_once 'test/settings.php';
 
 //----------------------------
 // DATABASE CONFIGURATION
@@ -10,19 +7,19 @@ $config = DiContainer::instance()->config;
 return array(
   'db' => array(
       'development' => array(
-      'type'      => $config->defaultDb_driver,
-      'host'      => $config->defaultDb_host,
-      'port'      => $config->defaultDb_post,
-      'database'  => $config->defaultDb_name,
-      'user'      => $config->defaultDb_user,
-      'password'  => $config->defaultDb_password,
-      'charset'   => $config->defaultDb_charset,
+        'type'      => $dic->config->defaultDb_driver,
+        'host'      => $dic->config->defaultDb_host,
+        'port'      => $dic->config->defaultDb_port,
+        'database'  => $dic->config->defaultDb_name,
+        'user'      => $dic->config->defaultDb_user,
+        'password'  => $dic->config->defaultDb_password,
+        'charset'   => $dic->config->defaultDb_charset
+      ),
     ),
-  ),
+  'ruckusing_base' => __DIR__.'/vendor/ruckusing/ruckusing-migrations',
   'migrations_dir' => RUCKUSING_WORKING_BASE . '/database',
   'db_dir' => RUCKUSING_WORKING_BASE . '/db',
-  'log_dir' => RUCKUSING_WORKING_BASE . '/logs',
-  'ruckusing_base' => dirname(__FILE__) . '/vendor/ruckusing/ruckusing-migrations'
+  'log_dir' => '/tmp/logs',
 );
 
 ?>
