@@ -12,7 +12,7 @@ class Fixtures {
     $sample->int_value = "117";
     $sample->string_value = "test's";
     $sample->decimal_value = 1234567.89;
-    $sample->boolean_value = "1";
+    $sample->boolean_value = 1;
     return $sample;
   }
   

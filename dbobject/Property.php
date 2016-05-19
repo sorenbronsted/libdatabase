@@ -61,7 +61,7 @@ class Property {
         break;
       case self::BOOLEAN:
         if (is_string($value) && is_numeric($value)) {
-          $result = ($value == 1 ? true : false);
+          $result = ($value == 1 ? 1 : 0);
         }
         break;
       case self::PERCENT:
