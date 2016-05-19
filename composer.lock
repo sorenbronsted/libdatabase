@@ -4,22 +4,16 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "528e81dbddae54db0cd1457486b7866a",
-    "content-hash": "d1064444fb3d45351b0dc6ca85c444bc",
+    "hash": "2adbfb3f409729ab7af68026ecc0d293",
+    "content-hash": "63f10d51970f66cb622d3cad73af09c8",
     "packages": [
         {
             "name": "ruckusing/ruckusing-migrations",
-            "version": "1.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ruckus/ruckusing-migrations.git",
-                "reference": "853d95ecf2124b109fafbd83b1685b614f8137ab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ruckus/ruckusing-migrations/zipball/853d95ecf2124b109fafbd83b1685b614f8137ab",
-                "reference": "853d95ecf2124b109fafbd83b1685b614f8137ab",
-                "shasum": ""
+                "url": "http://dev/git/ufds/ruckusing-migrations.git",
+                "reference": "21237303212f779b7f476d586448c6ce8560889f"
             },
             "require": {
                 "php": ">=5.2.0"
@@ -37,15 +31,14 @@
                     "Task": "lib/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Cody Caughlan",
                     "email": "codycaughlan@gmail.com",
                     "homepage": "https://github.com/ruckus/ruckusing-migrations/wiki",
+                    "name": "Cody Caughlan",
                     "role": "Project lead / Developer"
                 }
             ],
@@ -60,7 +53,12 @@
                 "ruckusing",
                 "task"
             ],
-            "time": "2015-03-18 15:29:47"
+            "support": {
+                "email": "codycaughlan@gmail.com",
+                "issues": "https://github.com/ruckus/ruckusing-migrations/issues",
+                "source": "https://github.com/ruckus/ruckusing-migrations"
+            },
+            "time": "2016-05-19 14:00:01"
         },
         {
             "name": "ufds/libcommon",
@@ -88,7 +86,7 @@
             "source": {
                 "type": "git",
                 "url": "http://dev/git/ufds/libtypes.git",
-                "reference": "5420fa3116083bfa47c4755363fa622bc660e7c4"
+                "reference": "bf39e69ac73625708744eb1c03cec670c29d27b0"
             },
             "require": {
                 "ufds/libcommon": "dev-master"
@@ -103,7 +101,7 @@
                 "UFDS privat"
             ],
             "description": "UFDS standard types",
-            "time": "2015-12-11 14:59:52"
+            "time": "2016-03-23 13:19:38"
         },
         {
             "name": "ufds/libutil",
@@ -111,7 +109,7 @@
             "source": {
                 "type": "git",
                 "url": "http://dev/git/ufds/libutil.git",
-                "reference": "673c8913dee539ce83891a9270cfc205a6b697f0"
+                "reference": "a4777ed192dacdb0df1465a98aee3f7622e650ff"
             },
             "type": "library",
             "autoload": {
@@ -126,13 +124,14 @@
                 "UFDS privat"
             ],
             "description": "Package of utils",
-            "time": "2015-12-09 15:29:28"
+            "time": "2016-04-07 14:13:39"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "ruckusing/ruckusing-migrations": 20,
         "ufds/libutil": 20,
         "ufds/libtypes": 20,
         "ufds/libcommon": 20
