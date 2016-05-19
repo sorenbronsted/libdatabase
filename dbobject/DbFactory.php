@@ -21,8 +21,8 @@ class DbFactory {
 		if (empty($dsn)) {
 			throw new ConnectionException('dsn is empty', __FILE__, __LINE__);
 		}
-		$options[PDO::ATTR_PERSISTENT] = true;
-		$pdo = new PDO($dsn, $config->{$name.'_user'}, $config->{$name.'_password'}, $options);
+	  DiContainer::instance()->log->debug(__CLASS__, "dsn: $dsn");
+		$pdo = new PDO($dsn, $config->{$name.'_user'}, $config->{$name.'_password'});
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		if ($config->{$name.'_schema'} != null) {
 			$pdo->exec('set schema '.$config->{$name.'_schema'});
