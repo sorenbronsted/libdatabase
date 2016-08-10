@@ -12,4 +12,3 @@ class AlterSample1 extends Ruckusing_Migration_Base {
 		$this->remove_column($this->table, "datetime_value");
 	}
 }
-?>

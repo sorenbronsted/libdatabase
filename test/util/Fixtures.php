@@ -1,4 +1,6 @@
 <?php
+namespace ufds;
+
 require_once 'test/settings.php';
 
 class Fixtures {
@@ -22,5 +24,3 @@ class Fixtures {
 		return $object;
 	}
 }
-
-?>

@@ -1,4 +1,5 @@
 <?php
+namespace ufds;
 
 class Property {
   const INT = 0;

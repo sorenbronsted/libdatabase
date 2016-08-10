@@ -1,4 +1,5 @@
 <?php
+namespace ufds;
 
 abstract class DbObject {
 	public static $db = 'defaultDb';
@@ -8,13 +9,13 @@ abstract class DbObject {
 	public function __construct($data = array()) {
     $properties = $this->getProperties();
     foreach ($properties as $name => $type) {
-      $this->data[$name] = (array_key_exists($name, $data) ? Property::getValue($type, $data[$name]) : null);
+      $this->data[$name] = (isset($data[$name]) ? Property::getValue($type, $data[$name]) : null);
     }
 		if (count($data) == 0) {
 			$this->data["uid"] = 0;
 		}
 	}
-	
+
 	public function __get($name) {
 		return (array_key_exists($name, $this->data) ? $this->data[$name] : null);
 	}
@@ -80,7 +81,7 @@ abstract class DbObject {
 			$qbe[$name] = $this->$name;
 		}
 		$list = Db::buildSetList($qbe);
-		$sql = "update ".strtolower(get_class($this))." set $list where uid = $this->uid";
+		$sql = "update ".strtolower(self::getClass($this))." set $list where uid = $this->uid";
 		Db::prepareExec(static::$db, $sql, array_values($qbe));
   }
 
@@ -90,16 +91,16 @@ abstract class DbObject {
 		$columns = Db::buildNameList($data);
 		$values = array_values($data);
 		$placeHolders = implode(',', array_fill(0, count(array_keys($data)), '?'));
-    $sql = "insert into ".strtolower(get_class($this))."($columns) values($placeHolders)";
+    $sql = "insert into ".strtolower(self::getClass($this))."($columns) values($placeHolders)";
     $this->uid = Db::prepareExec(static::$db, $sql, $values);
   }
 
   public function destroy() {
-    Db::deleteBy(get_class($this), array("uid" => $this->uid), static::$db);
+    Db::deleteBy(self::getClass($this), array("uid" => $this->uid), static::$db);
   }
 
   public static function destroyBy(array $where) {
-    Db::deleteBy(get_called_class(), $where, static::$db);
+    Db::deleteBy(self::getCalledClass(), $where, static::$db);
   }
 
   public static function getAll(array $orderby = array()) {
@@ -124,20 +125,20 @@ abstract class DbObject {
 			return $result[0];
 		}
     if (count($result) > 1) {
-      throw new MoreThanOneException(get_called_class(), __FILE__, __LINE__);
+      throw new MoreThanOneException(self::getCalledClass(), __FILE__, __LINE__);
     }
 		if (count($result) == 0) {
-			throw new NotFoundException(get_called_class(), __FILE__, __LINE__);
+			throw new NotFoundException(self::getCalledClass(), __FILE__, __LINE__);
 		}
   }
 
   public static function get($qbe = array(), $orderby = array()) {
-    $sql = Db::buildSelect(strtolower(get_called_class()), $qbe, $orderby);
+    $sql = Db::buildSelect(strtolower(self::getCalledClass()), $qbe, $orderby);
     return self::getObjects($sql, $qbe);
   }
 
 	public static function getWhere($where) {
-		$class = strtolower(get_called_class());
+		$class = strtolower(self::getCalledClass());
 		$sql = "select * from $class where $where";
 		return self::getObjects($sql);
 	}
@@ -162,4 +163,25 @@ abstract class DbObject {
     }
     return $result;
   }
+
+  private static function getCalledClass() {
+	  $class = get_called_class();
+	  return self::getClassName($class);
+  }
+
+  private static function getClass($object) {
+  	$class = get_class($object);
+	  return self::getClassName($class);
+  }
+
+	private static function getClassName($class) {
+		$start = strpos($class, '\\');
+		if ($start === false) {
+			$start = 0;
+		}
+		else {
+			$start += 1;
+		}
+		return substr($class, $start);
+	}
 }

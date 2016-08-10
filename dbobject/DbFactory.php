@@ -1,4 +1,9 @@
 <?php
+namespace ufds;
+
+use Exception;
+use PDO;
+use ufds\DiContainer;
 
 class DbFactory {
   
@@ -44,7 +49,7 @@ class DbFactory {
 				$result = $config->{$name.'_driver'}.
 					':'.$config->{$name.'_name'};
 				break;
-			case 'ibm':
+			case 'db2':
 				$result = 'ibm:driver={ibm db2 odbc driver}'.
 					';database='.$config->{$name.'_name'}.
 					';hostname='.$config->{$name.'_host'}.

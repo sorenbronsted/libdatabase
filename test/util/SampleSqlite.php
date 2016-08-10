@@ -1,4 +1,5 @@
 <?php
+namespace ufds;
 
 class SampleSqlite extends DbObject {
 	// This the overridden database name
@@ -18,4 +19,3 @@ class SampleSqlite extends DbObject {
     return self::$properties;
   }
 }
-?>

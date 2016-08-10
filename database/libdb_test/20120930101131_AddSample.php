@@ -21,4 +21,3 @@ class AddSample extends Ruckusing_Migration_Base {
     $this->drop_table($this->table);
 	}
 }
-?>

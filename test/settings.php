@@ -1,12 +1,8 @@
 <?php
+namespace ufds;
 
 $loader = require 'vendor/autoload.php';
-$loader->addClassMap(array(
-	'Fixtures' => 'test/util/Fixtures.php',
-	'Sample' => 'test/util/Sample.php',
-	'SampleSqlite' => 'test/util/SampleSqlite.php',
-	'SampleWithStringUid' => 'test/util/SampleWithStringUid.php',
-));
+$loader->addPsr4('ufds\\', __DIR__.'/util');
 
 date_default_timezone_set("Europe/Copenhagen");
 error_reporting(E_ALL|E_STRICT);

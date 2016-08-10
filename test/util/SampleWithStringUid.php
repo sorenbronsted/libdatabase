@@ -1,4 +1,5 @@
 <?php
+namespace ufds;
 
 /*
  * This will map to a corresponding table named sample in lowercase.
@@ -16,4 +17,3 @@ class SampleWithStringUid extends DbObject {
     return self::$properties;
   }
 }
-?>

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2adbfb3f409729ab7af68026ecc0d293",
-    "content-hash": "63f10d51970f66cb622d3cad73af09c8",
+    "hash": "1ad4152c72bfede096c19d13b2f06bbb",
+    "content-hash": "8cfa0d50901b5accd321e7d536392dcd",
     "packages": [
         {
             "name": "ruckusing/ruckusing-migrations",
@@ -66,19 +66,21 @@
             "source": {
                 "type": "git",
                 "url": "http://dev/git/ufds/libcommon.git",
-                "reference": "dafdfe8f7ed7891a6c56369ab2aef4071cee0d5f"
+                "reference": "54f491fa74ff3dce4502c4bb230a52ac6eaef7dc"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "common/"
-                ]
+                "psr-4": {
+                    "ufds\\": [
+                        "common/"
+                    ]
+                }
             },
             "license": [
                 "UFDS privat"
             ],
             "description": "UFDS common library",
-            "time": "2015-12-11 13:57:53"
+            "time": "2016-08-05 11:18:57"
         },
         {
             "name": "ufds/libtypes",
@@ -86,22 +88,24 @@
             "source": {
                 "type": "git",
                 "url": "http://dev/git/ufds/libtypes.git",
-                "reference": "bf39e69ac73625708744eb1c03cec670c29d27b0"
+                "reference": "29f189d6c8002f3de3e8a6fa7ea12e2865d2e87f"
             },
             "require": {
                 "ufds/libcommon": "dev-master"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "types/"
-                ]
+                "psr-4": {
+                    "ufds\\": [
+                        "types/"
+                    ]
+                }
             },
             "license": [
                 "UFDS privat"
             ],
             "description": "UFDS standard types",
-            "time": "2016-03-23 13:19:38"
+            "time": "2016-08-10 08:30:07"
         },
         {
             "name": "ufds/libutil",
@@ -109,22 +113,27 @@
             "source": {
                 "type": "git",
                 "url": "http://dev/git/ufds/libutil.git",
-                "reference": "a4777ed192dacdb0df1465a98aee3f7622e650ff"
+                "reference": "7fa45eda0e8fa99771a1da71fdb32d46bb1e6f8a"
+            },
+            "require": {
+                "ufds/libcommon": "dev-master"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "config/",
-                    "di/",
-                    "log/",
-                    "lpr/"
-                ]
+                "psr-4": {
+                    "ufds\\": [
+                        "config/",
+                        "di/",
+                        "log/",
+                        "lpr/"
+                    ]
+                }
             },
             "license": [
                 "UFDS privat"
             ],
             "description": "Package of utils",
-            "time": "2016-04-07 14:13:39"
+            "time": "2016-08-05 11:47:16"
         }
     ],
     "packages-dev": [],
@@ -139,5 +148,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "5.4"
+    }
 }

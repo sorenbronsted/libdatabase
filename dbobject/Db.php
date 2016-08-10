@@ -1,4 +1,7 @@
 <?php
+namespace ufds;
+
+use RuntimeException;
 
 class Db {
 	
@@ -79,7 +82,7 @@ class Db {
     }
     $sql = "delete from ".strtolower($table). " where $where";
     if ($qbe == null) {
-      self::exec($sql);
+      self::exec($dbName, $sql);
     }
     else {
       self::prepareExec($dbName, $sql, array_values($qbe));
@@ -133,25 +136,5 @@ class Db {
     }
     $db = DbFactory::getConnection($dbName);
     return new DbCursor($db->query($sql));
-  }
-}
-
-class DbCursor {
-  private $current = null;
-  private $stmt = null;
-
-  public function __construct($stmt) {
-    $this->stmt = $stmt;
-    $this->current = $this->stmt->fetch(PDO::FETCH_ASSOC);
-  }
-
-  public function hasNext() {
-    return $this->current != false;
-  }
-
-  public function next() {
-    $retval = $this->current;
-    $this->current = $this->stmt->fetch(PDO::FETCH_ASSOC);
-    return $retval;
   }
 }
