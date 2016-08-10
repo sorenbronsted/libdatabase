@@ -81,7 +81,7 @@ abstract class DbObject {
 			$qbe[$name] = $this->$name;
 		}
 		$list = Db::buildSetList($qbe);
-		$sql = "update ".strtolower(self::getClass($this))." set $list where uid = $this->uid";
+		$sql = "update ".strtolower($this->getClass())." set $list where uid = $this->uid";
 		Db::prepareExec(static::$db, $sql, array_values($qbe));
   }
 
@@ -91,12 +91,12 @@ abstract class DbObject {
 		$columns = Db::buildNameList($data);
 		$values = array_values($data);
 		$placeHolders = implode(',', array_fill(0, count(array_keys($data)), '?'));
-    $sql = "insert into ".strtolower(self::getClass($this))."($columns) values($placeHolders)";
+    $sql = "insert into ".strtolower($this->getClass())."($columns) values($placeHolders)";
     $this->uid = Db::prepareExec(static::$db, $sql, $values);
   }
 
   public function destroy() {
-    Db::deleteBy(self::getClass($this), array("uid" => $this->uid), static::$db);
+    Db::deleteBy($this->getClass(), array("uid" => $this->uid), static::$db);
   }
 
   public static function destroyBy(array $where) {
@@ -169,8 +169,8 @@ abstract class DbObject {
 	  return self::getClassName($class);
   }
 
-  public static function getClass(DbObject $object) {
-  	$class = get_class($object);
+  public function getClass() {
+  	$class = get_class($this);
 	  return self::getClassName($class);
   }
 
