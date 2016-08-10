@@ -164,12 +164,12 @@ abstract class DbObject {
     return $result;
   }
 
-  private static function getCalledClass() {
+  public static function getCalledClass() {
 	  $class = get_called_class();
 	  return self::getClassName($class);
   }
 
-  private static function getClass($object) {
+  public static function getClass(DbObject $object) {
   	$class = get_class($object);
 	  return self::getClassName($class);
   }
