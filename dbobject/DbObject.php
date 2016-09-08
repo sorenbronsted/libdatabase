@@ -8,8 +8,14 @@ abstract class DbObject {
 
 	public function __construct($data = array()) {
     $properties = $this->getProperties();
+		// Ensure that all keys are lowercase
+		$modified = array();
+		foreach ($data as $k => $v) {
+			$k = strtolower($k);
+			$modified[$k] = $v;
+		}
     foreach ($properties as $name => $type) {
-      $this->data[$name] = (isset($data[$name]) ? Property::getValue($type, $data[$name]) : null);
+      $this->data[$name] = (isset($modified[$name]) ? Property::getValue($type, $modified[$name]) : null);
     }
 		if (count($data) == 0) {
 			$this->data["uid"] = 0;

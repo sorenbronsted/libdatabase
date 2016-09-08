@@ -66,7 +66,7 @@
             "source": {
                 "type": "git",
                 "url": "http://dev/git/ufds/libcommon.git",
-                "reference": "54f491fa74ff3dce4502c4bb230a52ac6eaef7dc"
+                "reference": "cf0a0134a3595341352a4c72b05e62b0d02d0635"
             },
             "type": "library",
             "autoload": {
@@ -80,7 +80,7 @@
                 "UFDS privat"
             ],
             "description": "UFDS common library",
-            "time": "2016-08-05 11:18:57"
+            "time": "2016-08-10 11:17:09"
         },
         {
             "name": "ufds/libtypes",
@@ -88,7 +88,7 @@
             "source": {
                 "type": "git",
                 "url": "http://dev/git/ufds/libtypes.git",
-                "reference": "29f189d6c8002f3de3e8a6fa7ea12e2865d2e87f"
+                "reference": "0ae684e56b0b552c95ea969daa32b504b9fa8b09"
             },
             "require": {
                 "ufds/libcommon": "dev-master"
@@ -105,7 +105,7 @@
                 "UFDS privat"
             ],
             "description": "UFDS standard types",
-            "time": "2016-08-10 08:30:07"
+            "time": "2016-09-08 10:48:30"
         },
         {
             "name": "ufds/libutil",
