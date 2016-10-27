@@ -87,8 +87,9 @@ abstract class DbObject {
 			$qbe[$name] = $this->$name;
 		}
 		$list = Db::buildSetList($qbe);
-		$sql = "update ".strtolower($this->getClass())." set $list where uid = $this->uid";
-		Db::prepareExec(static::$db, $sql, array_values($qbe));
+	  $qbe['uid'] = $this->uid;
+	  $sql = "update ".strtolower($this->getClass())." set $list where uid = ?";
+	  Db::prepareExec(static::$db, $sql, array_values($qbe));
   }
 
   public function insert() {
