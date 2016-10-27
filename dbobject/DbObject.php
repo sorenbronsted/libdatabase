@@ -143,10 +143,10 @@ abstract class DbObject {
     return self::getObjects($sql, $qbe);
   }
 
-	public static function getWhere($where) {
+	public static function getWhere($where, $qbe = null) {
 		$class = strtolower(self::getCalledClass());
 		$sql = "select * from $class where $where";
-		return self::getObjects($sql);
+		return self::getObjects($sql, $qbe);
 	}
 	
   public static function getObjects($sql, $qbe = null) {

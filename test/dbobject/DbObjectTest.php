@@ -125,6 +125,8 @@ class DbObjectTest extends PHPUnit_Framework_TestCase {
 		$sample->save();
 		$objects = Sample::getWhere("uid = ".$sample->uid);
 		$this->assertEquals(1, count($objects));
+		$objects = Sample::getWhere("uid = :p1", array('p1' => $sample->uid));
+		$this->assertEquals(1, count($objects));
 	}
 
 	public function testGetQbe() {
