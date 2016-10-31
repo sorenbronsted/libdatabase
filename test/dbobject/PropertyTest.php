@@ -42,7 +42,7 @@ class PropertyTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetValueTimestamp() {
-		$v = Property::getValue(Property::DATE, '31-12-2010 11:12:13');
+		$v = Property::getValue(Property::TIMESTAMP, '31-12-2010 11:12:13');
 		$d = Timestamp::parse('31-12-2010 11:12:13');
 		$this->assertEquals($d, $v);
 	}

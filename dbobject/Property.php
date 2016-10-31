@@ -40,9 +40,13 @@ class Property {
         }
         break;
       case self::DATE:
+	      if (is_string($value) && strlen($value)) {
+		      $result = Date::parse($value);
+	      }
+	      break;
       case self::TIMESTAMP:
         if (is_string($value) && strlen($value)) {
-          $result = Date::parse($value);
+          $result = Timestamp::parse($value);
         }
         break;
       case self::STRING:
