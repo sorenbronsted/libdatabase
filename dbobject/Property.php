@@ -12,14 +12,18 @@ class Property {
   const PERCENT = 7;
   const TIMESTAMP = 8;
 
-  /* Converts a string value to a value of $type.
-   * If values is empty or null nothing is converted.
-   * Some of the types are php primitives or objects like this:
-   *   INT, DECIMAL, STRING, PERCENT => primitive
-   *   DATO, CASE_NUMBER, CPR => object
-   * Return a value converted acording to type.
-   */
-  public static function getValue($type, $value) {
+	/**
+	 * Converts a string value to a value of $type.
+	 * If value is empty and $type is not STRING the value is converted to null.
+	 * The result is either a primitive or an object, and is converted as follows:
+	 *    primitive: INT, DECIMAL, STRING, PERCENT
+	 *    object: DATE, TIMESTAMP, CASE_NUMBER, CPR
+	 *
+	 * @param $type
+	 * @param $value
+	 * @return float|int|string|Date|Timestamp|CaseNumber|Cpr
+	 */
+	public static function getValue($type, $value) {
     $result = $value;
     switch ($type) {
       case self::INT:
@@ -40,13 +44,19 @@ class Property {
         }
         break;
       case self::DATE:
-	      if (is_string($value) && strlen($value)) {
-		      $result = Date::parse($value);
+	      if (is_string($value)) {
+		      $result = null;
+	      	if (strlen($value) > 0) {
+			      $result = Date::parse($value);
+		      }
 	      }
 	      break;
       case self::TIMESTAMP:
-        if (is_string($value) && strlen($value)) {
-          $result = Timestamp::parse($value);
+        if (is_string($value)) {
+	        $result = null;
+        	if (strlen($value) > 0) {
+	          $result = Timestamp::parse($value);
+          }
         }
         break;
       case self::STRING:

@@ -16,6 +16,8 @@ class PropertyTest extends PHPUnit_Framework_TestCase {
 			$this->assertEquals(false, is_string($val), $input);
 			$this->assertEquals(false, is_float($val), $input);
 		}
+		$v = Property::getValue(Property::INT, '');
+		$this->assertEquals(0, $v);
 	}
 
 	public function testGetValueDecimal() {
@@ -33,23 +35,32 @@ class PropertyTest extends PHPUnit_Framework_TestCase {
 			Property::getValue(Property::DECIMAL, '1,00'),
 			Property::getValue(Property::DECIMAL, '1,0000')
 		);
+		$v = Property::getValue(Property::DECIMAL, '');
+		$this->assertEquals(0, $v);
 	}
 
 	public function testGetValueDate() {
 		$v = Property::getValue(Property::DATE, '31-12-2010');
 		$d = Date::parse('31-12-2010');
 		$this->assertEquals($d, $v);
+		$v = Property::getValue(Property::DATE, '');
+		$this->assertEquals(null, $v);
 	}
 
 	public function testGetValueTimestamp() {
 		$v = Property::getValue(Property::TIMESTAMP, '31-12-2010 11:12:13');
 		$d = Timestamp::parse('31-12-2010 11:12:13');
 		$this->assertEquals($d, $v);
+		$v = Property::getValue(Property::TIMESTAMP, '');
+		$this->assertEquals(null, $v);
 	}
 
 	public function testGetValueString() {
 		$v = Property::getValue(Property::STRING, 'abc');
 		$this->assertEquals('abc', $v);
+		$v = Property::getValue(Property::STRING, '');
+		$this->assertEquals('', $v);
+		$this->assertNotNull($v);
 	}
 
 	public function testIsEqual() {
@@ -64,5 +75,12 @@ class PropertyTest extends PHPUnit_Framework_TestCase {
 		$v1 = Property::getValue(Property::DATE, '28-09-2015');
 		$v2 = Property::getValue(Property::DATE, '28-09-2015');
 		$this->assertTrue(Property::isEqual(Property::DATE, $v1, $v2));
-	}
+
+		$v1 = Property::getValue(Property::DATE, '');
+		$v2 = Property::getValue(Property::DATE, '');
+		$this->assertTrue(Property::isEqual(Property::DATE, $v1, $v2));
+
+		$v1 = Property::getValue(Property::DATE, '28-09-2015');
+		$v2 = Property::getValue(Property::DATE, '');
+		$this->assertFalse(Property::isEqual(Property::DATE, $v1, $v2));	}
 }
