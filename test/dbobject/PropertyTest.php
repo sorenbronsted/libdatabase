@@ -63,6 +63,23 @@ class PropertyTest extends PHPUnit_Framework_TestCase {
 		$this->assertNotNull($v);
 	}
 
+	public function testGetValueBoolean() {
+		$v = Property::getValue(Property::BOOLEAN, '1');
+		$this->assertEquals(true, $v);
+		$v = Property::getValue(Property::BOOLEAN, '0');
+		$this->assertEquals(false, $v);
+		$v = Property::getValue(Property::BOOLEAN, 1);
+		$this->assertEquals(true, $v);
+		$v = Property::getValue(Property::BOOLEAN, 0);
+		$this->assertEquals(false, $v);
+		$v = Property::getValue(Property::BOOLEAN, '');
+		$this->assertEquals(false, $v);
+		$this->assertNotNull($v);
+		$v = Property::getValue(Property::BOOLEAN, null);
+		$this->assertFalse(false, $v);
+		$this->assertNotNull($v);
+	}
+
 	public function testIsEqual() {
 		$v1 = Property::getValue(Property::INT, '1');
 		$v2 = Property::getValue(Property::INT, '1');

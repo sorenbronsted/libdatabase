@@ -44,19 +44,19 @@ class Property {
         }
         break;
       case self::DATE:
-	      if (is_string($value)) {
+	      if (is_string($value) && strlen($value) > 0) {
+		      $result = Date::parse($value);
+	      }
+	      else {
 		      $result = null;
-	      	if (strlen($value) > 0) {
-			      $result = Date::parse($value);
-		      }
 	      }
 	      break;
       case self::TIMESTAMP:
-        if (is_string($value)) {
+        if (is_string($value) && strlen($value) > 0) {
+	        $result = Timestamp::parse($value);
+        }
+        else {
 	        $result = null;
-        	if (strlen($value) > 0) {
-	          $result = Timestamp::parse($value);
-          }
         }
         break;
       case self::STRING:
@@ -65,18 +65,30 @@ class Property {
         }
         break;
       case self::CASE_NUMBER:
-        if ((is_string($value)  && strlen($value)) || is_numeric($value)) {
-          $result = CaseNumber::parse($value);
+	      if (is_string($value) && strlen($value) > 0) {
+		      $result = CaseNumber::parse($value);
+	      }
+        else if (is_numeric($value)) {
+	        $result = CaseNumber::parse($value);
+        }
+        else {
+	        $result = null;
         }
         break;
       case self::CPR:
-        if (is_string($value) && strlen($value)) {
-          $result = Cpr::parse($value);
+        if (is_string($value) && strlen($value) > 0) {
+	        $result = Cpr::parse($value);
+        }
+        else {
+	        $result = null;
         }
         break;
       case self::BOOLEAN:
         if (is_string($value) && is_numeric($value)) {
           $result = ($value == 1 ? 1 : 0);
+        }
+        else if (is_null($value)) {
+        	$result = 0;
         }
         break;
       case self::PERCENT:
