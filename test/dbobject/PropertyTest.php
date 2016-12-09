@@ -43,13 +43,37 @@ class PropertyTest extends PHPUnit_Framework_TestCase {
 		$v = Property::getValue(Property::DATE, '31-12-2010');
 		$d = Date::parse('31-12-2010');
 		$this->assertEquals($d, $v);
+		$v = Property::getValue(Property::DATE, Date::parse('31-12-2010'));
+		$this->assertEquals($d, $v);
 		$v = Property::getValue(Property::DATE, '');
+		$this->assertEquals(null, $v);
+	}
+
+	public function testGetValueCpr() {
+		$v = Property::getValue(Property::CPR, '0101010202');
+		$d = Cpr::parse('0101010202');
+		$this->assertEquals($d, $v);
+		$v = Property::getValue(Property::CPR, Cpr::parse('0101010202'));
+		$this->assertEquals($d, $v);
+		$v = Property::getValue(Property::CPR, '');
+		$this->assertEquals(null, $v);
+	}
+
+	public function testGetValueCaseNumber() {
+		$v = Property::getValue(Property::CASE_NUMBER, '12/15');
+		$d = CaseNumber::parse('12/15');
+		$this->assertEquals($d, $v);
+		$v = Property::getValue(Property::CASE_NUMBER, CaseNumber::parse('12/15'));
+		$this->assertEquals($d, $v);
+		$v = Property::getValue(Property::CASE_NUMBER, '');
 		$this->assertEquals(null, $v);
 	}
 
 	public function testGetValueTimestamp() {
 		$v = Property::getValue(Property::TIMESTAMP, '31-12-2010 11:12:13');
 		$d = Timestamp::parse('31-12-2010 11:12:13');
+		$this->assertEquals($d, $v);
+		$v = Property::getValue(Property::TIMESTAMP, Timestamp::parse('31-12-2010 11:12:13'));
 		$this->assertEquals($d, $v);
 		$v = Property::getValue(Property::TIMESTAMP, '');
 		$this->assertEquals(null, $v);

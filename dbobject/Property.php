@@ -26,38 +26,42 @@ class Property {
 	public static function getValue($type, $value) {
     $result = $value;
     switch ($type) {
-      case self::INT:
-        if (is_string($value)) {
-          $result = intval(str_replace('.','',$value));
-        }
-        break;
-      case self::DECIMAL:
-        // If value contain an comma ',' then this value i properly a danish decimal number
-        // on the form 1.234,5678
-        if (is_string($value)) {
-          if (strpos($value, ',')) {
-            $result = floatval(str_replace(',', '.', str_replace('.','',$value)));
-          }
-          else {
-            $result = floatval($value);
-          }
-        }
-        break;
-      case self::DATE:
-	      if (is_string($value) && strlen($value) > 0) {
-		      $result = Date::parse($value);
-	      }
-	      else {
-		      $result = null;
-	      }
-	      break;
-      case self::TIMESTAMP:
-        if (is_string($value) && strlen($value) > 0) {
-	        $result = Timestamp::parse($value);
-        }
-        else {
-	        $result = null;
-        }
+	    case self::INT:
+		    if (is_string($value)) {
+			    $result = intval(str_replace('.', '', $value));
+		    }
+		    break;
+	    case self::DECIMAL:
+		    // If value contain an comma ',' then this value i properly a danish decimal number
+		    // on the form 1.234,5678
+		    if (is_string($value)) {
+			    if (strpos($value, ',')) {
+				    $result = floatval(str_replace(',', '.', str_replace('.', '', $value)));
+			    }
+			    else {
+				    $result = floatval($value);
+			    }
+		    }
+		    break;
+	    case self::DATE:
+		    if (is_string($value)) {
+			    if (strlen($value) > 0) {
+				    $result = Date::parse($value);
+			    }
+			    else {
+				    $result = null;
+			    }
+		    }
+		    break;
+	    case self::TIMESTAMP:
+		    if (is_string($value)) {
+			    if (strlen($value) > 0) {
+				    $result = Timestamp::parse($value);
+			    }
+			    else {
+				    $result = null;
+			    }
+		    }
         break;
       case self::STRING:
         if (!is_string($value)) {
@@ -65,22 +69,26 @@ class Property {
         }
         break;
       case self::CASE_NUMBER:
-	      if (is_string($value) && strlen($value) > 0) {
-		      $result = CaseNumber::parse($value);
+	      if (is_string($value)) {
+		      if (strlen($value) > 0) {
+			      $result = CaseNumber::parse($value);
+		      }
+		      else {
+			      $result = null;
+		      }
 	      }
         else if (is_numeric($value)) {
 	        $result = CaseNumber::parse($value);
         }
-        else {
-	        $result = null;
-        }
         break;
       case self::CPR:
-        if (is_string($value) && strlen($value) > 0) {
-	        $result = Cpr::parse($value);
-        }
-        else {
-	        $result = null;
+        if (is_string($value)) {
+	        if (strlen($value) > 0) {
+		        $result = Cpr::parse($value);
+	        }
+	        else {
+		        $result = null;
+	        }
         }
         break;
       case self::BOOLEAN:
