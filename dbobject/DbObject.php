@@ -181,7 +181,7 @@ abstract class DbObject {
 	  return self::getClassName($class);
   }
 
-	private static function getClassName($class) {
+	protected static function getClassName($class) {
 		$start = strpos($class, '\\');
 		if ($start === false) {
 			$start = 0;
