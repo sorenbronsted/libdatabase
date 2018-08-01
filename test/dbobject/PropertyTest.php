@@ -1,11 +1,11 @@
 <?php
 namespace ufds;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 require_once 'test/settings.php';
 
-class PropertyTest extends PHPUnit_Framework_TestCase {
+class PropertyTest extends TestCase {
 
 	public function testGetValueInt() {
 		$values = array('1' => 1, 2 => 2);

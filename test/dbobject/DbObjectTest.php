@@ -1,11 +1,11 @@
 <?php
 namespace ufds;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 require_once 'test/settings.php';
 
-class DbObjectTest extends PHPUnit_Framework_TestCase {
+class DbObjectTest extends TestCase {
 
   protected function tearDown() {
     Db::exec('defaultDb', "delete from sample");

@@ -20,11 +20,11 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">dbobject</directory>
+            <exclude>
+                <directory>vendor</directory>
+                <directory>test</directory>
+            </exclude>
         </whitelist>
-        <exclude>
-            <directory>vendor</directory>
-            <directory>test</directory>
-        </exclude>
     </filter>
     <php>
         <ini name="memory_limit" value="2048M"/>

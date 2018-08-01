@@ -1,7 +1,7 @@
 <?php
 namespace ufds;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 require_once 'test/settings.php';
 
@@ -9,13 +9,13 @@ require_once 'test/settings.php';
  * This test a sqlite memory database, where the SampleSqlite has a overridden db property
  * which tell which driver is used and therefore the database.
  */
-class DbObjectCrudSqliteTest extends PHPUnit_Framework_TestCase {
+class DbObjectCrudSqliteTest extends TestCase {
   
-	public function __construct() {
-		SampleSqlite::createSchema();	
+	public static function setUpBeforeClass() {
+		SampleSqlite::createSchema();
 	}
-	
-  public function testCrud() {
+
+	public function testCrud() {
     $sample = $this->create();
     $sample = $this->read($sample);
     $update = $this->update($sample);
@@ -60,4 +60,3 @@ class DbObjectCrudSqliteTest extends PHPUnit_Framework_TestCase {
     return $sample;
   }
 }
-?>

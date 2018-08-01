@@ -1,11 +1,11 @@
 <?php
 namespace ufds;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 require_once 'test/settings.php';
 
-class DbFactoryTest extends PHPUnit_Framework_TestCase {
+class DbFactoryTest extends TestCase {
 
   public function testMysql() {
 		$cur = Db::query('defaultDb', "select 1 as value");
