@@ -2,6 +2,7 @@
 namespace ufds;
 
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 require_once 'test/settings.php';
 
@@ -157,5 +158,18 @@ class DbObjectTest extends TestCase {
 	public function testGetProperties() {
 		$sample = Fixtures::newSample();
 		$this->assertEquals(9, count($sample->getProperties()));
+	}
+
+	public function testContructor() {
+		$sample = new Sample(['int_value' => 5]);
+		$this->assertEquals(5, $sample->int_value);
+
+  	$values = new stdClass();
+  	$values->int_value = 10;
+  	$sample = new Sample($values);
+  	$this->assertEquals($values->int_value, $sample->int_value);
+
+		$sample = new Sample();
+		$this->assertEquals(0, $sample->uid);
 	}
 }

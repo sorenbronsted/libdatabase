@@ -17,7 +17,7 @@ abstract class DbObject {
     foreach ($properties as $name => $type) {
       $this->data[$name] = (isset($modified[$name]) ? Property::getValue($type, $modified[$name]) : null);
     }
-		if (count($data) == 0) {
+		if (empty($data)) {
 			$this->data["uid"] = 0;
 		}
 	}
