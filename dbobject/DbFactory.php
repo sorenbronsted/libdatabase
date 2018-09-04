@@ -56,6 +56,8 @@ class DbFactory {
 					';port='.$config->{$name.'_port'}.
 				  ';protocol=tcpip';
 				break;
+			case 'mdb':
+				$result = "odbc:Driver=MDBTools;DBQ=".$config->{$name.'_name'};
 		}
 		return $result;
 	}

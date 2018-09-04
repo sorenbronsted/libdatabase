@@ -23,4 +23,10 @@ class Fixtures {
 		$object->name = 'test';
 		return $object;
 	}
+
+	public static function newSampleMdb() {
+		$object = new SampleMdb();
+		$object->name = 'test';
+		return $object;
+	}
 }
