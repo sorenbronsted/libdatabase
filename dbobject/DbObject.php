@@ -28,17 +28,23 @@ abstract class DbObject {
 	
 	public function __set($name, $value) {
 	  $properties = $this->getProperties();
-		if (!array_key_exists($name, $properties)) {
-			return; // Silently ignore unknown properties
+
+		if (array_key_exists($name, $properties)) {
+			$newValue = Property::getValue($properties[$name], $value);
+			// If new and existing value are the same no assignment is needed
+			if (Property::isEqual($properties[$name], $this->data[$name], $newValue)) {
+				return;
+			}
+			$this->data[$name] = $newValue;
+			if ($name != "uid" && !$this->hasFieldChanged($name)) {
+				$this->changed[] = $name;
+			}
 		}
-		$newValue = Property::getValue($properties[$name], $value);
-		// If new and existing value are the same no assignment is needed
-		if (Property::isEqual($properties[$name], $this->data[$name], $newValue)) {
-			return;
+		else if (property_exists($this, $name)) {
+			$this->$name = $value;
 		}
-		$this->data[$name] = $newValue;
-		if ($name != "uid" &&	!$this->hasFieldChanged($name)) {
-			$this->changed[] = $name;
+		else {
+			throw new UnknownPropertyException($name, __FILE__, __LINE__);
 		}
 	}
 

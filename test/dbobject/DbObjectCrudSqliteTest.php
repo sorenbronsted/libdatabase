@@ -11,7 +11,7 @@ require_once 'test/settings.php';
  */
 class DbObjectCrudSqliteTest extends TestCase {
   
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass() : void {
 		SampleSqlite::createSchema();
 	}
 

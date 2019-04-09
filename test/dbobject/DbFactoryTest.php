@@ -32,7 +32,7 @@ class DbFactoryTest extends TestCase {
 			$this->fail('Expected exception');
 		}
 		catch(ConnectionException $e) {
-			$this->assertContains('dsn', $e->getMessage());
+			$this->assertStringContainsString('dsn', $e->getMessage());
 		}
 	}
 }

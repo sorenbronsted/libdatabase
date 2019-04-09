@@ -8,7 +8,7 @@ require_once 'test/settings.php';
 
 class DbObjectTest extends TestCase {
 
-  protected function tearDown() {
+  protected function tearDown() : void {
     Db::exec('defaultDb', "delete from sample");
   }
 
@@ -28,8 +28,15 @@ class DbObjectTest extends TestCase {
 
   public function testUnknownProperty() {
     $sample = Fixtures::newSample();
-    $sample->unknown = "test";
-    $this->assertEquals(null, $sample->unknown);
+    $sample->transient_value = 'test';
+    $this->assertEquals($sample->transient_value, 'test');
+    try {
+			$sample->test = "test";
+			$this->fail("Expected an exception");
+		}
+		catch (UnknownPropertyException $e) {
+			$this->assertStringContainsString('test', $e->getMessage());
+		}
   }
 
   public function testEmpty() {

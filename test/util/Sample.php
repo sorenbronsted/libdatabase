@@ -19,7 +19,9 @@ class Sample extends DbObject {
     'decimal_value' => Property::DECIMAL,
     'boolean_value' => Property::BOOLEAN
   );
-  
+
+  public $transient_value;
+
   // mandatory method used by DbObject
   public function getProperties() {
     return self::$properties;
