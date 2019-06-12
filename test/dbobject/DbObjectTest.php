@@ -26,19 +26,6 @@ class DbObjectTest extends TestCase {
     $sample->destroy();
   }
 
-  public function testUnknownProperty() {
-    $sample = Fixtures::newSample();
-    $sample->transient_value = 'test';
-    $this->assertEquals($sample->transient_value, 'test');
-    try {
-			$sample->test = "test";
-			$this->fail("Expected an exception");
-		}
-		catch (UnknownPropertyException $e) {
-			$this->assertStringContainsString('test', $e->getMessage());
-		}
-  }
-
   public function testEmpty() {
   	$sample = Fixtures::newSample();
   	$this->assertFalse(empty($sample->cpr));

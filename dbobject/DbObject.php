@@ -43,9 +43,7 @@ abstract class DbObject {
 		else if (property_exists($this, $name)) {
 			$this->$name = $value;
 		}
-		else {
-			throw new UnknownPropertyException($name, __FILE__, __LINE__);
-		}
+		// Silently ignore unknown properties
 	}
 
 	public function __isset($name) {
