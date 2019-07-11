@@ -24,7 +24,7 @@ class Property {
 	 * @return float|int|string|Date|Timestamp|CaseNumber|Cpr
 	 */
 	public static function getValue($type, $value) {
-    $result = $value;
+    $result = ($value == 'null' ? null : $value);
     switch ($type) {
 	    case self::INT:
 		    if (is_string($value)) {
@@ -44,23 +44,13 @@ class Property {
 		    }
 		    break;
 	    case self::DATE:
-		    if (is_string($value)) {
-			    if (strlen($value) > 0) {
-				    $result = Date::parse($value);
-			    }
-			    else {
-				    $result = null;
-			    }
+		    if (is_string($value) && strlen($value) > 0) {
+			    $result = Date::parse($value);
 		    }
 		    break;
 	    case self::TIMESTAMP:
-		    if (is_string($value)) {
-			    if (strlen($value) > 0) {
-				    $result = Timestamp::parse($value);
-			    }
-			    else {
-				    $result = null;
-			    }
+		    if (is_string($value) && strlen($value) > 0) {
+		    	$result = Timestamp::parse($value);
 		    }
         break;
       case self::STRING:
@@ -69,26 +59,16 @@ class Property {
         }
         break;
       case self::CASE_NUMBER:
-	      if (is_string($value)) {
-		      if (strlen($value) > 0) {
-			      $result = CaseNumber::parse($value);
-		      }
-		      else {
-			      $result = null;
-		      }
+	      if (is_string($value) && strlen($value) > 0) {
+	      	$result = CaseNumber::parse($value);
 	      }
         else if (is_numeric($value)) {
 	        $result = CaseNumber::parse($value);
         }
         break;
       case self::CPR:
-        if (is_string($value)) {
-	        if (strlen($value) > 0) {
-		        $result = Cpr::parse($value);
-	        }
-	        else {
-		        $result = null;
-	        }
+        if (is_string($value) && strlen($value) > 0) {
+        	$result = Cpr::parse($value);
         }
         break;
       case self::BOOLEAN:

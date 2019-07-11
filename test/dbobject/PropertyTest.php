@@ -7,6 +7,11 @@ require_once 'test/settings.php';
 
 class PropertyTest extends TestCase {
 
+	public function testGetNull() {
+		$this->assertEquals(null, Property::getValue(Property::INT, null));
+		$this->assertEquals(null, Property::getValue(Property::INT, 'null'));
+	}
+
 	public function testGetValueInt() {
 		$values = array('1' => 1, 2 => 2);
 		foreach($values as $input => $result) {
@@ -111,7 +116,7 @@ class PropertyTest extends TestCase {
 
 		$v1 = Property::getValue(Property::INT, 0);
 		$v2 = Property::getValue(Property::INT, null);
-		$this->assertFalse(Property::isEqual(Property::INT, $v1, $v2));
+		$this->assertTrue(Property::isEqual(Property::INT, $v1, $v2));
 
 		$v1 = Property::getValue(Property::DATE, '28-09-2015');
 		$v2 = Property::getValue(Property::DATE, '28-09-2015');
@@ -119,7 +124,7 @@ class PropertyTest extends TestCase {
 
 		$v1 = Property::getValue(Property::DATE, '');
 		$v2 = Property::getValue(Property::DATE, '');
-		$this->assertTrue(Property::isEqual(Property::DATE, $v1, $v2));
+		$this->assertFalse(Property::isEqual(Property::DATE, $v1, $v2));
 
 		$v1 = Property::getValue(Property::DATE, '28-09-2015');
 		$v2 = Property::getValue(Property::DATE, '');
