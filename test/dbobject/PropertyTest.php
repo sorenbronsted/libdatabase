@@ -42,6 +42,9 @@ class PropertyTest extends TestCase {
 		);
 		$v = Property::getValue(Property::DECIMAL, '');
 		$this->assertEquals(0, $v);
+
+		$v = Property::getValue(Property::DECIMAL, 0.0);
+		$this->assertEquals('0', "$v");
 	}
 
 	public function testGetValueDate() {
@@ -116,7 +119,7 @@ class PropertyTest extends TestCase {
 
 		$v1 = Property::getValue(Property::INT, 0);
 		$v2 = Property::getValue(Property::INT, null);
-		$this->assertTrue(Property::isEqual(Property::INT, $v1, $v2));
+		$this->assertFalse(Property::isEqual(Property::INT, $v1, $v2));
 
 		$v1 = Property::getValue(Property::DATE, '28-09-2015');
 		$v2 = Property::getValue(Property::DATE, '28-09-2015');
