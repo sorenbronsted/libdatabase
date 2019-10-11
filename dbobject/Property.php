@@ -44,12 +44,12 @@ class Property {
 		    }
 		    break;
 	    case self::DATE:
-		    if (is_string($value) && strlen($value) > 0) {
+		    if (is_string($value)) {
 			    $result = Date::parse($value);
 		    }
 		    break;
 	    case self::TIMESTAMP:
-		    if (is_string($value) && strlen($value) > 0) {
+		    if (is_string($value)) {
 		    	$result = Timestamp::parse($value);
 		    }
         break;
@@ -59,7 +59,7 @@ class Property {
         }
         break;
       case self::CASE_NUMBER:
-	      if (is_string($value) && strlen($value) > 0) {
+	      if (is_string($value)) {
 	      	$result = CaseNumber::parse($value);
 	      }
         else if (is_numeric($value)) {
@@ -67,7 +67,7 @@ class Property {
         }
         break;
       case self::CPR:
-        if (is_string($value) && strlen($value) > 0) {
+        if (is_string($value)) {
         	$result = Cpr::parse($value);
         }
         break;

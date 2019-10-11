@@ -127,7 +127,7 @@ class PropertyTest extends TestCase {
 
 		$v1 = Property::getValue(Property::DATE, '');
 		$v2 = Property::getValue(Property::DATE, '');
-		$this->assertFalse(Property::isEqual(Property::DATE, $v1, $v2));
+		$this->assertTrue(Property::isEqual(Property::DATE, $v1, $v2));
 
 		$v1 = Property::getValue(Property::DATE, '28-09-2015');
 		$v2 = Property::getValue(Property::DATE, '');
