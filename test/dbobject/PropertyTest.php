@@ -1,4 +1,5 @@
 <?php
+
 namespace ufds;
 
 use PHPUnit\Framework\TestCase;
@@ -7,14 +8,9 @@ require_once 'test/settings.php';
 
 class PropertyTest extends TestCase {
 
-	public function testGetNull() {
-		$this->assertEquals(null, Property::getValue(Property::INT, null));
-		$this->assertEquals(null, Property::getValue(Property::INT, 'null'));
-	}
-
 	public function testGetValueInt() {
 		$values = array('1' => 1, 2 => 2);
-		foreach($values as $input => $result) {
+		foreach ($values as $input => $result) {
 			$val = Property::getValue(Property::INT, $input);
 			$this->assertEquals($result, $val, $input);
 			$this->assertEquals(true, is_int($val), $input);
@@ -27,7 +23,7 @@ class PropertyTest extends TestCase {
 
 	public function testGetValueDecimal() {
 		$values = array('1,1' => 1.1, '1.2' => 1.2);
-		foreach($values as $input => $result) {
+		foreach ($values as $input => $result) {
 			$val = Property::getValue(Property::DECIMAL, $input);
 			$this->assertEquals($result, $val, $input);
 			$this->assertEquals(false, is_int($val), $input);
@@ -108,8 +104,7 @@ class PropertyTest extends TestCase {
 		$this->assertEquals(false, $v);
 		$this->assertNotNull($v);
 		$v = Property::getValue(Property::BOOLEAN, null);
-		$this->assertFalse(false, $v);
-		$this->assertNotNull($v);
+		$this->assertNull($v);
 	}
 
 	public function testIsEqual() {
@@ -131,5 +126,16 @@ class PropertyTest extends TestCase {
 
 		$v1 = Property::getValue(Property::DATE, '28-09-2015');
 		$v2 = Property::getValue(Property::DATE, '');
-		$this->assertFalse(Property::isEqual(Property::DATE, $v1, $v2));	}
+		$this->assertFalse(Property::isEqual(Property::DATE, $v1, $v2));
+	}
+
+	public function testNull() {
+		$types = [Property::INT, Property::DECIMAL, Property::STRING, Property::DATE, Property::CPR,
+			Property::BOOLEAN, Property::PERCENT, Property::TIMESTAMP];
+
+		foreach ($types as $type) {
+			$this->assertNull(Property::getValue($type, null), $type);
+			$this->assertNull(Property::getValue($type, 'null'), $type);
+		}
+	}
 }
