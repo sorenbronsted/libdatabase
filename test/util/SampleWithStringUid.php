@@ -1,5 +1,5 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 /*
  * This will map to a corresponding table named sample in lowercase.

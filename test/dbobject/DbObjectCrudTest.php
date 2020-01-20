@@ -1,5 +1,5 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 use PHPUnit\Framework\TestCase;
 
@@ -7,11 +7,17 @@ require_once 'test/settings.php';
 
 class DbObjectCrudTest extends TestCase {
   
-  protected function tearDown() : void {
-    Db::exec('defaultDb', "delete from sample");
+  protected function setUp() : void {
+		if (extension_loaded('pdo_sqlite')) {
+			SampleSqlite::createSchema();
+			Db::exec(Sample::$db, "delete from sample");
+		}
   }
   
   public function testCrud() {
+		if (!extension_loaded('pdo_sqlite')) {
+			$this->markTestSkipped('extention pdo_sqlite not loaded');
+		}
     $sample = $this->create();
     $sample = $this->read($sample);
     $update = $this->update($sample);
@@ -70,4 +76,3 @@ class DbObjectCrudTest extends TestCase {
     return $sample;
   }
 }
-?>

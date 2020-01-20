@@ -1,5 +1,5 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 use PHPUnit\Framework\TestCase;
 
@@ -17,6 +17,9 @@ require_once 'test/settings.php';
 class DbObjectCrudMdbTest extends TestCase {
   
 	public function testBasic() {
+		if (!extension_loaded('pdo_odbc')) {
+			$this->markTestSkipped('extention pdo_odbc not loaded');
+		}
 		$objects = SampleMdb::getAll();
 		$this->assertEquals(2, count($objects));
 		$this->assertEquals(1, $objects[0]->uid);

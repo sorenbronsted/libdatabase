@@ -1,5 +1,5 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 use PHPUnit\Framework\TestCase;
 
@@ -9,13 +9,12 @@ require_once 'test/settings.php';
  * This test a sqlite memory database, where the SampleSqlite has a overridden db property
  * which tell which driver is used and therefore the database.
  */
-class DbObjectCrudSqliteTest extends TestCase {
+class DbObjectCrudMysqlTest extends TestCase {
   
-	public static function setUpBeforeClass() : void {
-		SampleSqlite::createSchema();
-	}
-
 	public function testCrud() {
+		if (!extension_loaded('pdo_mysql')) {
+			$this->markTestSkipped('extention pdo_mysql not loaded');
+		}
     $sample = $this->create();
     $sample = $this->read($sample);
     $update = $this->update($sample);
@@ -23,10 +22,11 @@ class DbObjectCrudSqliteTest extends TestCase {
   }
   
   private function delete($sample) {
-    $read = SampleSqlite::getByUid($sample->uid);
+		Sample::$db = 'mysql';
+    Sample::getByUid($sample->uid);
     $sample->destroy();
     try {
-    $read = SampleSqlite::getByUid($sample->uid);
+    	Sample::getByUid($sample->uid);
       $this->fail("Expected exception");
     }
     catch (NotFoundException $e) {
@@ -35,15 +35,17 @@ class DbObjectCrudSqliteTest extends TestCase {
   }
   
   private function update($sample) {
+		Sample::$db = 'mysql';
 		$sample->name = 'sletmig';
 		$sample->save();
-    $read = SampleSqlite::getByUid($sample->uid);
+    $read = Sample::getByUid($sample->uid);
     $this->compare($read, $sample);
     return $read;
   }
   
   private function read($sample) {
-    $read = SampleSqlite::getByUid($sample->uid);
+		Sample::$db = 'mysql';
+    $read = Sample::getByUid($sample->uid);
     $this->compare($sample, $read);
     return $read;
   }
@@ -55,7 +57,8 @@ class DbObjectCrudSqliteTest extends TestCase {
   }
   
   private function create() {
-    $sample = Fixtures::newSampleSqlite();
+    $sample = Fixtures::newSample();
+		$sample::$db = 'mysql';
     $sample->save();
     return $sample;
   }

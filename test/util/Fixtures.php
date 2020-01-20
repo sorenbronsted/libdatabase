@@ -1,5 +1,5 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 require_once 'test/settings.php';
 
@@ -18,7 +18,7 @@ class Fixtures {
     return $sample;
   }
   
-	public static function newSampleSqlite() {
+	public static function newSampleMysql() {
 		$object = new SampleSqlite();
 		$object->name = 'test';
 		return $object;

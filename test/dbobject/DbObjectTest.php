@@ -1,5 +1,5 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -8,9 +8,12 @@ require_once 'test/settings.php';
 
 class DbObjectTest extends TestCase {
 
-  protected function tearDown() : void {
-    Db::exec('defaultDb', "delete from sample");
-  }
+	protected function setUp() : void {
+		if (extension_loaded('pdo_sqlite')) {
+			SampleSqlite::createSchema();
+			Db::exec('defaultDb', "delete from sample");
+		}
+	}
 
   public function testHasChanged() {
     $sample = Fixtures::newSample();

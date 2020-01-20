@@ -1,32 +1,33 @@
 {
-  "name": "ufds/libdatabase",
-  "description": "Generel ORM mapper baseret på PDO",
-  "license": "UFDS privat",
-
-
-  "config": {
-    "platform": {
-      "php": "5.4"
-    },
-    "secure-http": false
+  "name": "sbronsted/liborm",
+  "type": "library",
+  "description": "General ORM mapper based on PDO",
+  "license": "MIT",
+  "homepage": "https://github.com/sorenbronsted/liborm",
+  "authors": [
+    {
+      "name": "Søren Brønsted",
+      "email": "soren@bronsted.dk",
+      "homepage": "https://bronsted.dk",
+      "role": "Developer"
+    }
+  ],
+  "scripts": {
+    "test": "vendor/bin/phpunit -c test-conf.xml",
+    "coverage": "vendor/bin/phpunit -c test-conf.xml --coverage-html build/coverage"
   },
-
   "autoload": {
-    "psr-4": { "ufds\\": "dbobject/"}
+    "psr-4": { "sbronsted\\": "dbobject/"}
   },
-
   "require": {
-    "ruckusing/ruckusing-migrations" : "dev-master",
-    "ufds/libutil": "dev-master",
-    "ufds/libtypes": "dev-master",
-    "ufds/libcommon": "dev-master"
+    "php": ">=7.1",
+    "sbronsted/libutil": "^2.0",
+    "sbronsted/libtypes": "^2.0",
+    "sbronsted/libcommon": "^3.0",
+    "ext-pdo": "*"
   },
-  
-  "repositories": [
-    {"type": "vcs", "url": "http://dev/git/ufds/ruckusing-migrations.git"},
-    {"type": "vcs", "url": "http://dev/git/ufds/libutil.git"},
-    {"type": "vcs", "url": "http://dev/git/ufds/libtypes.git"},
-    {"type": "vcs", "url": "http://dev/git/ufds/libcommon.git"}
-  ]
+  "require-dev": {
+    "ruckusing/ruckusing-migrations" : "^1.0",
+    "phpunit/phpunit": "^8.5"
+  }
 }
-

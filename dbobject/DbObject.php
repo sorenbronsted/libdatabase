@@ -1,5 +1,5 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 abstract class DbObject {
 	public static $db = 'defaultDb';

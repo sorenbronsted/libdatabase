@@ -1,9 +1,8 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 use Exception;
 use PDO;
-use ufds\DiContainer;
 
 class DbFactory {
   

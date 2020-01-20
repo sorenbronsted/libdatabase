@@ -1,5 +1,5 @@
 <?php
-namespace ufds;
+namespace sbronsted;
 
 class SampleMdb extends DbObject {
 	// This the overridden database name
