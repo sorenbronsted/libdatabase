@@ -3,7 +3,7 @@
   "type": "library",
   "description": "General ORM mapper based on PDO",
   "license": "MIT",
-  "homepage": "https://github.com/sorenbronsted/liborm",
+  "homepage": "https://github.com/sorenbronsted/libdatabase",
   "authors": [
     {
       "name": "Søren Brønsted",
