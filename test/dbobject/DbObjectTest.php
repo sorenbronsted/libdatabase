@@ -112,7 +112,7 @@ class DbObjectTest extends TestCase {
 		$qbe = array('uid' => $sample->uid);
 		$orderby = array('uid');
 
-		$cursor = Db::select('sample', $qbe, $orderby, DbObject::$db);
+		$cursor = Db::select('sample', $qbe,  DbObject::$db, $orderby);
 		$this->assertTrue($cursor->hasNext());
 	}
 

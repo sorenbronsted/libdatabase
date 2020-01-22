@@ -8,7 +8,7 @@ class DbFactory {
   
   private static $connections = array();
   
-  public static function getConnection($name) {
+  public static function getConnection(string $name) : PDO {
     if (isset(self::$connections[$name])) {
 			return self::$connections[$name];
 		}
@@ -35,7 +35,7 @@ class DbFactory {
 		return self::$connections[$name];
   }
 	
-	private static function dsn($name, $config) {
+	private static function dsn(string $name, Config2 $config) {
 		$result = null;
 		switch ($config->{$name.'_driver'}) {
 			case 'mysql':

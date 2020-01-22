@@ -10,7 +10,7 @@ class SampleMdb extends DbObject {
     'name' => Property::STRING,
   );
 
-  public function getProperties() {
+  public function getProperties() : array {
     return self::$properties;
   }
 }

@@ -8,25 +8,25 @@ class Db {
 	/* Builds a name = ?, ... list to be used with update
 	 * return: an array values from qbe
 	 */
-	public static function buildSetList($qbe) {
+	public static function buildSetList(array $qbe) : string {
 		return implode(',', self::buildAssigments($qbe));
 	}
 	
 	/* Builds a name = ? and ... list to be used with where
 	 */
-	public static function buildConditionList($qbe) {
+	public static function buildConditionList(array $qbe) : string {
 		return implode(' and ', self::buildExpression($qbe));
 	}
 	
 	/* Builds a name, ... list which can used with select or insert
 	 */
-	public static function buildNameList($qbe) {
+	public static function buildNameList(array $qbe) : string {
 		return implode(',', array_keys($qbe));
 	}
 	
 	/* Builds a value = ?,... list
 	 */
-	public static function buildAssigments($qbe) {
+	public static function buildAssigments(array $qbe) : array {
 		$assigments = array_keys($qbe);
 		for ($i = 0; $i < count($assigments); $i++) {
 			$assigments[$i] = $assigments[$i]." = ?";
@@ -36,7 +36,7 @@ class Db {
 
 	/* Builds a value op ?,... list where op can be =, is and like
 	 */
-	public static function buildExpression($qbe) {
+	public static function buildExpression(array $qbe) : array {
 		$assigments = array();
 		foreach($qbe as $name => $value) {
 			$op = '=';
@@ -51,7 +51,7 @@ class Db {
 		return $assigments;
 	}
 
-	public static function buildSelect($table, $qbe, $orderby = array()) {
+	public static function buildSelect(string $table, array $qbe, array $orderby = array()) : string {
     $where = self::buildConditionList($qbe);
 		if (strlen($where) > 0) {
 			$where = ' where '.$where;
@@ -63,12 +63,12 @@ class Db {
     return "select * from ".strtolower($table)." $where $sOrderby";
   }
 
-  public static function select($table, $qbe, $orderby = array(), $dbName) {
+  public static function select(string $table, array $qbe, string $dbName, array $orderby = array()) : DbCursor {
     $sql = self::buildSelect($table, $qbe, $orderby);
     return self::prepareQuery($dbName, $sql, array_values($qbe));
   }
 
-  public static function deleteBy($table, array $qbe, $dbName) {
+  public static function deleteBy(string $table, array $qbe, string $dbName) : void {
     if (!$qbe) {
       return;
     }
@@ -76,7 +76,7 @@ class Db {
     self::deleteWhere($table, $where, $qbe, $dbName);
   }
 
-  public static function deleteWhere($table, $where, $qbe, $dbName) {
+  public static function deleteWhere(string $table, string $where, array $qbe, string $dbName) : void {
     if (!$where) {
       return;
     }
@@ -89,7 +89,7 @@ class Db {
     }
   }
 
-  public static function prepareExec($dbName, $sql, $values = array()) {
+  public static function prepareExec(string $dbName, string $sql, array $values = array()) : int {
 		$log = DiContainer::instance()->log;
 		if ($log != null) {
 			$log->debug(__CLASS__, "$dbName: $sql");
@@ -104,7 +104,7 @@ class Db {
     return $db->lastInsertId();
   }
 
-  public static function prepareQuery($dbName, $sql, array $values = array()) {
+  public static function prepareQuery(string $dbName, string $sql, array $values = array()) : DbCursor {
 		$log = DiContainer::instance()->log;
 		if ($log != null) {
 			$log->debug(__CLASS__, "$dbName: $sql");
@@ -119,7 +119,7 @@ class Db {
     return new DbCursor($stmt);
   }
 
-  public static function exec($dbName, $sql) {
+  public static function exec(string $dbName, string $sql) : int {
 		$log = DiContainer::instance()->log;
 		if ($log != null) {
 			$log->debug(__CLASS__, "$dbName: $sql");
@@ -129,7 +129,7 @@ class Db {
     return $db->lastInsertId();
   }
 
-  public static function query($dbName, $sql) {
+  public static function query(string $dbName, string $sql) : DbCursor {
 		$log = DiContainer::instance()->log;
 		if ($log != null) {
 			$log->debug(__CLASS__, "$dbName: $sql");

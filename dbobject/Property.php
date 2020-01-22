@@ -24,7 +24,7 @@ class Property {
 	 * @param $value
 	 * @return float|int|string|Date|Timestamp|CaseNumber|Cpr
 	 */
-	public static function getValue($type, $value) {
+	public static function getValue(int $type, $value) {
 		if (is_string($value) && strtolower($value) == 'null' || is_null($value)) {
 			return null;
 		}
@@ -97,7 +97,7 @@ class Property {
 		return $result;
 	}
 
-	public static function isEmpty($type, $value) {
+	public static function isEmpty(int $type, $value) {
 		if (is_null($value)) {
 			return true;
 		}

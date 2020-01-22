@@ -13,7 +13,7 @@ class SampleWithStringUid extends DbObject {
   );
   
   // mandatory method used by DbObject
-  public function getProperties() {
+  public function getProperties() : array {
     return self::$properties;
   }
 }

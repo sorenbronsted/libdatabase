@@ -23,7 +23,7 @@ class Sample extends DbObject {
   public $transient_value;
 
   // mandatory method used by DbObject
-  public function getProperties() {
+  public function getProperties() : array {
     return self::$properties;
   }
 }

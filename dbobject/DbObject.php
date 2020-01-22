@@ -22,11 +22,11 @@ abstract class DbObject {
 		}
 	}
 
-	public function __get($name) {
+	public function __get(string $name) {
 		return (array_key_exists($name, $this->data) ? $this->data[$name] : null);
 	}
 	
-	public function __set($name, $value) {
+	public function __set(string $name, $value) : void {
 	  $properties = $this->getProperties();
 
 		if (array_key_exists($name, $properties)) {
@@ -46,31 +46,31 @@ abstract class DbObject {
 		// Silently ignore unknown properties
 	}
 
-	public function __isset($name) {
+	public function __isset(string $name) : bool {
 		return isset($this->data[$name]);
 	}
 
-	public function setData(array $data) {
+	public function setData(array $data) : void {
 		foreach (array_keys($data) as $name) {
 			$this->$name = $data[$name]; // This will trigger __set
 		}
 	}
 
-	public function getChanged() {
+	public function getChanged() : array {
 		return $this->changed;
 	}
 	
-	public function hasFieldChanged($name) {
+	public function hasFieldChanged(string $name) : bool {
 		return array_search($name, $this->changed) !== false;
 	}
 	
-	public function getData() {
+	public function getData() : array {
 		return $this->data;
 	}
 	
-	protected abstract function getProperties();
+	protected abstract function getProperties() : array;
 	
-  public function save() {
+  public function save() : void {
     if ($this->uid) {
       $this->update();
     }
@@ -80,7 +80,7 @@ abstract class DbObject {
 		$this->changed = array();
   }
   
-  public function update() {
+  public function update() : void {
     $data = $this->getChanged();
 		unset($data['uid']);
 		if (count($data) <= 0) {
@@ -96,7 +96,7 @@ abstract class DbObject {
 	  Db::prepareExec(static::$db, $sql, array_values($qbe));
   }
 
-  public function insert() {
+  public function insert() : void {
     $data = $this->getData();
 		unset($data['uid']);
 		$columns = Db::buildNameList($data);
@@ -106,32 +106,32 @@ abstract class DbObject {
     $this->uid = Db::prepareExec(static::$db, $sql, $values);
   }
 
-  public function destroy() {
+  public function destroy() : void {
     Db::deleteBy($this->getClass(), array("uid" => $this->uid), static::$db);
   }
 
-  public static function destroyBy(array $where) {
+  public static function destroyBy(array $where) : void {
     Db::deleteBy(self::getCalledClass(), $where, static::$db);
   }
 
-  public static function getAll(array $orderby = array()) {
+  public static function getAll(array $orderby = array()) : array {
     return self::get(array(), $orderby);
   }
 
-  public static function getByUid($uid) {
+  public static function getByUid($uid) : object {
     return self::getOneBy(array("uid" => $uid));
   }
 
-  public static function getBy(array $where, array $orderby = array()) {
+  public static function getBy(array $where, array $orderby = array()) : iterable {
     return self::get($where, $orderby);
   }
 
-  public static function getOneBy(array $where) {
+  public static function getOneBy(array $where) : object {
     $result = self::get($where, array());
 		return self::verifyOne($result);
   }
 
-  public static function verifyOne(array $result) {
+  public static function verifyOne(array $result) : object {
 		if (count($result) == 1) {
 			return $result[0];
 		}
@@ -143,18 +143,18 @@ abstract class DbObject {
 		}
   }
 
-  public static function get($qbe = array(), $orderby = array()) {
+  public static function get(array $qbe = array(), array $orderby = array()) : iterable {
     $sql = Db::buildSelect(strtolower(self::getCalledClass()), $qbe, $orderby);
     return self::getObjects($sql, $qbe);
   }
 
-	public static function getWhere($where, $qbe = null) {
+	public static function getWhere(string $where, array $qbe = null) : iterable {
 		$class = strtolower(self::getCalledClass());
 		$sql = "select * from $class where $where";
 		return self::getObjects($sql, $qbe);
 	}
 	
-  public static function getObjects($sql, $qbe = null) {
+  public static function getObjects(string $sql, $qbe = null) : iterable{
     $result = array();
 		$class = get_called_class();
 		$cursor = null;
@@ -175,24 +175,18 @@ abstract class DbObject {
     return $result;
   }
 
-  public static function getCalledClass() {
+  public static function getCalledClass() : string {
 	  $class = get_called_class();
 	  return self::getClassName($class);
   }
 
-  public function getClass() {
+  public function getClass() : string {
   	$class = get_class($this);
 	  return self::getClassName($class);
   }
 
-	protected static function getClassName($class) {
-		$start = strpos($class, '\\');
-		if ($start === false) {
-			$start = 0;
-		}
-		else {
-			$start += 1;
-		}
-		return substr($class, $start);
+	protected static function getClassName($class) : string {
+  	$parts = explode('\\', $class);
+  	return $parts[1];
 	}
 }
