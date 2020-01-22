@@ -114,11 +114,11 @@ abstract class DbObject {
     Db::deleteBy(self::getCalledClass(), $where, static::$db);
   }
 
-  public static function getAll(array $orderby = array()) : array {
+  public static function getAll(array $orderby = array()) : iterable {
     return self::get(array(), $orderby);
   }
 
-  public static function getByUid($uid) : object {
+  public static function getByUid(int $uid) : object {
     return self::getOneBy(array("uid" => $uid));
   }
 
@@ -131,7 +131,7 @@ abstract class DbObject {
 		return self::verifyOne($result);
   }
 
-  public static function verifyOne(array $result) : object {
+  public static function verifyOne(iterable $result) : object {
 		if (count($result) == 1) {
 			return $result[0];
 		}
