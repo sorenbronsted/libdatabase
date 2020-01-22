@@ -2,7 +2,7 @@
 
 class AlterSample1 extends Ruckusing_Migration_Base {
 
-	private $table = "sample";
+	private $table = "samplemysql";
 
 	public function up() {
 		$this->add_column($this->table, "datetime_value", "datetime");

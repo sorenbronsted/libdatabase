@@ -7,13 +7,13 @@ require_once 'test/settings.php';
 return array(
   'db' => array(
       'development' => array(
-        'type'      => $dic->config->defaultDb_driver,
-        'host'      => $dic->config->defaultDb_host,
-        'port'      => $dic->config->defaultDb_port,
-        'database'  => $dic->config->defaultDb_name,
-        'user'      => $dic->config->defaultDb_user,
-        'password'  => $dic->config->defaultDb_password,
-        'charset'   => $dic->config->defaultDb_charset
+        'type'      => $dic->config->mysql_driver,
+        'host'      => $dic->config->mysql_host,
+        'port'      => $dic->config->mysql_port,
+        'database'  => $dic->config->mysql_name,
+        'user'      => $dic->config->mysql_user,
+        'password'  => $dic->config->mysql_password,
+        'charset'   => $dic->config->mysql_charset
       ),
     ),
   'ruckusing_base' => __DIR__.'/vendor/ruckusing/ruckusing-migrations',

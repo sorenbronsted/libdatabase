@@ -1,14 +1,7 @@
 <?php
 namespace sbronsted;
 
-class SampleSqlite extends DbObject {
-	// This the overridden database name
-  public static $db = 'defaultDb';
-	
-  private static $properties = array(
-    'uid' => Property::INT,
-    'name' => Property::STRING,
-  );
+class SampleSqlite extends Sample {
 
 	public static function createSchema() {
 		$sql = "create table if not exists sample(
@@ -22,10 +15,7 @@ class SampleSqlite extends DbObject {
     	decimal_value decimal,
     	boolean_value integer
 		)";
-		Db::exec(static::$db, $sql);
+		self::$db = 'defaultDb';
+		Db::exec(self::$db, $sql);
 	}
-	
-  public function getProperties() {
-    return self::$properties;
-  }
 }

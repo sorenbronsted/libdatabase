@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
-				 cacheTokens="true"
 				 colors="true">
 	<testsuites>
-		<testsuite name="Application Test Suite">
+		<testsuite name="Test Suite">
 			<directory>test</directory>
 		</testsuite>
 	</testsuites>
@@ -13,8 +12,4 @@
 			<directory suffix=".php">dbobject</directory>
 		</whitelist>
 	</filter>
-	<php>
-		<ini name="memory_limit" value="2048M"/>
-		<ini name="max_execution_time" value="60"/>
-	</php>
 </phpunit>

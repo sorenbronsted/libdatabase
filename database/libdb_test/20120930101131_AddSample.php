@@ -2,7 +2,7 @@
 
 class AddSample extends Ruckusing_Migration_Base {
 
-	private $table = "sample";
+	private $table = "samplemysql";
 	
 	public function up() {
     $t = $this->create_table($this->table, array("id" => false, 'options' => 'Engine=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci'));

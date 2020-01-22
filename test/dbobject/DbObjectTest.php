@@ -8,9 +8,14 @@ require_once 'test/settings.php';
 
 class DbObjectTest extends TestCase {
 
-	protected function setUp() : void {
+	public static function setUpBeforeClass(): void {
 		if (extension_loaded('pdo_sqlite')) {
 			SampleSqlite::createSchema();
+		}
+	}
+
+	protected function setUp() : void {
+		if (extension_loaded('pdo_sqlite')) {
 			Db::exec('defaultDb', "delete from sample");
 		}
 	}

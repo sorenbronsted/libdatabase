@@ -5,10 +5,6 @@ use PHPUnit\Framework\TestCase;
 
 require_once 'test/settings.php';
 
-/*
- * This test a sqlite memory database, where the SampleSqlite has a overridden db property
- * which tell which driver is used and therefore the database.
- */
 class DbObjectCrudMysqlTest extends TestCase {
   
 	public function testCrud() {
@@ -22,11 +18,10 @@ class DbObjectCrudMysqlTest extends TestCase {
   }
   
   private function delete($sample) {
-		Sample::$db = 'mysql';
-    Sample::getByUid($sample->uid);
+    SampleMysql::getByUid($sample->uid);
     $sample->destroy();
     try {
-    	Sample::getByUid($sample->uid);
+    	SampleMysql::getByUid($sample->uid);
       $this->fail("Expected exception");
     }
     catch (NotFoundException $e) {
@@ -35,17 +30,15 @@ class DbObjectCrudMysqlTest extends TestCase {
   }
   
   private function update($sample) {
-		Sample::$db = 'mysql';
 		$sample->name = 'sletmig';
 		$sample->save();
-    $read = Sample::getByUid($sample->uid);
+    $read = SampleMysql::getByUid($sample->uid);
     $this->compare($read, $sample);
     return $read;
   }
   
   private function read($sample) {
-		Sample::$db = 'mysql';
-    $read = Sample::getByUid($sample->uid);
+    $read = SampleMysql::getByUid($sample->uid);
     $this->compare($sample, $read);
     return $read;
   }
@@ -57,8 +50,7 @@ class DbObjectCrudMysqlTest extends TestCase {
   }
   
   private function create() {
-    $sample = Fixtures::newSample();
-		$sample::$db = 'mysql';
+    $sample = Fixtures::newSampleMysql();
     $sample->save();
     return $sample;
   }

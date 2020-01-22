@@ -1,5 +1,5 @@
 {
-  "name": "sbronsted/liborm",
+  "name": "sbronsted/libdatabase",
   "type": "library",
   "description": "General ORM mapper based on PDO",
   "license": "MIT",
@@ -13,6 +13,7 @@
     }
   ],
   "scripts": {
+    "migrate": "vendor/bin/ruckus.php db:migrate",
     "test": "vendor/bin/phpunit -c test-conf.xml",
     "coverage": "vendor/bin/phpunit -c test-conf.xml --coverage-html build/coverage"
   },
