@@ -174,4 +174,11 @@ class DbObjectTest extends TestCase {
 		$sample = new Sample();
 		$this->assertEquals(0, $sample->uid);
 	}
+
+	public function testSetData() {
+		$sample = Fixtures::newSample();
+		$sample->setData(['changed' => null]);
+		$this->assertTrue(is_array($sample->getChanged()));
+		$this->assertEquals(8, count($sample->getChanged()));
+	}
 }

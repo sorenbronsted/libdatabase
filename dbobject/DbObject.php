@@ -59,14 +59,14 @@ abstract class DbObject {
 				$this->changed[] = $name;
 			}
 		}
-		else if (property_exists($this, $name)) {
+		else if (property_exists($this, $name) && !in_array($name, ['changed', 'data'])) {
 			$this->$name = $value;
 		}
 		// Silently ignore unknown properties
 	}
 
 	/**
-	 * se php isset
+	 * @see php isset
 	 * @param string $name
 	 * @return bool
 	 */
@@ -81,7 +81,7 @@ abstract class DbObject {
 	 */
 	public function setData(array $data) : void {
 		foreach (array_keys($data) as $name) {
-			$this->$name = $data[$name]; // This will trigger __set
+			$this->__set($name, $data[$name]);
 		}
 	}
 
