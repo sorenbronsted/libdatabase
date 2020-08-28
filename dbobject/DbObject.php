@@ -1,6 +1,8 @@
 <?php
 namespace sbronsted;
 
+use RuntimeException;
+
 /**
  * Class DbObject provides convenience method mapping this object to CRUD sql operations. By convention the derived
  * classes must have a property named uid. By declaring which properties this class has, these can modified by
@@ -8,8 +10,8 @@ namespace sbronsted;
  */
 abstract class DbObject {
 	public static $db = 'defaultDb';
-	private $data = array();
-	private $changed = array();
+	private $_data = array();
+	private $_changed = array();
 
 	public function __construct($data = []) {
     $properties = $this->getProperties();
@@ -20,10 +22,10 @@ abstract class DbObject {
 			$modified[$k] = $v;
 		}
     foreach ($properties as $name => $type) {
-      $this->data[$name] = (isset($modified[$name]) ? Property::getValue($type, $modified[$name]) : null);
+      $this->_data[$name] = (isset($modified[$name]) ? Property::getValue($type, $modified[$name]) : null);
     }
 		if (empty($data)) {
-			$this->data["uid"] = 0;
+			$this->_data["uid"] = 0;
 		}
 	}
 
@@ -35,7 +37,7 @@ abstract class DbObject {
 	 * 	If found it returns the value otherwise null
 	 */
 	public function __get(string $name) {
-		return (array_key_exists($name, $this->data) ? $this->data[$name] : null);
+		return (array_key_exists($name, $this->_data) ? $this->_data[$name] : null);
 	}
 
 	/**
@@ -51,12 +53,12 @@ abstract class DbObject {
 		if (array_key_exists($name, $properties)) {
 			$newValue = Property::getValue($properties[$name], $value);
 			// If new and existing value are the same no assignment is needed
-			if (Property::isEqual($properties[$name], $this->data[$name], $newValue)) {
+			if (Property::isEqual($properties[$name], $this->_data[$name], $newValue)) {
 				return;
 			}
-			$this->data[$name] = $newValue;
+			$this->_data[$name] = $newValue;
 			if ($name != "uid" && !$this->hasFieldChanged($name)) {
-				$this->changed[] = $name;
+				$this->_changed[] = $name;
 			}
 		}
 		else if (property_exists($this, $name) && !in_array($name, ['changed', 'data'])) {
@@ -71,17 +73,17 @@ abstract class DbObject {
 	 * @return bool
 	 */
 	public function __isset(string $name) : bool {
-		return isset($this->data[$name]);
+		return isset($this->_data[$name]);
 	}
 
 	/**
 	 * Set all properties.
-	 * @param array $data
+	 * @param array $_data
 	 * 	The data values where keys are properties names
 	 */
-	public function setData(array $data) : void {
-		foreach (array_keys($data) as $name) {
-			$this->__set($name, $data[$name]);
+	public function setData(array $_data) : void {
+		foreach (array_keys($_data) as $name) {
+			$this->__set($name, $_data[$name]);
 		}
 	}
 
@@ -91,7 +93,7 @@ abstract class DbObject {
 	 * 	The changed properties
 	 */
 	public function getChanged() : array {
-		return $this->changed;
+		return $this->_changed;
 	}
 
 	/**
@@ -102,7 +104,7 @@ abstract class DbObject {
 	 * 	Returns true ff found and is change otherwise false
 	 */
 	public function hasFieldChanged(string $name) : bool {
-		return array_search($name, $this->changed) !== false;
+		return in_array($name, $this->_changed);
 	}
 
 	/**
@@ -111,7 +113,7 @@ abstract class DbObject {
 	 * 	The properties and values
 	 */
 	public function getData() : array {
-		return $this->data;
+		return $this->_data;
 	}
 
 	/**
@@ -131,7 +133,7 @@ abstract class DbObject {
     else {
       $this->insert();
     }
-		$this->changed = array();
+		$this->_changed = array();
   }
   
   protected function update() : void {
@@ -142,7 +144,7 @@ abstract class DbObject {
 		}
 		$qbe = array();
 		foreach($data as $name) {
-			$qbe[$name] = $this->$name;
+			$qbe[$name] = $this->_data[$name];
 		}
 		$list = Db::buildSetList($qbe);
 	  $qbe['uid'] = $this->uid;

@@ -17,7 +17,8 @@ class Sample extends DbObject {
     'int_value' => Property::INT,
     'string_value' => Property::STRING,
     'decimal_value' => Property::DECIMAL,
-    'boolean_value' => Property::BOOLEAN
+    'boolean_value' => Property::BOOLEAN,
+		'changed' => Property::STRING,
   );
 
   public $transient_value;

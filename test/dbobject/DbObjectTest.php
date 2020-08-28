@@ -159,7 +159,7 @@ class DbObjectTest extends TestCase {
 
 	public function testGetProperties() {
 		$sample = Fixtures::newSample();
-		$this->assertEquals(9, count($sample->getProperties()));
+		$this->assertEquals(10, count($sample->getProperties()));
 	}
 
 	public function testContructor() {
@@ -177,8 +177,8 @@ class DbObjectTest extends TestCase {
 
 	public function testSetData() {
 		$sample = Fixtures::newSample();
-		$sample->setData(['changed' => null]);
+		$sample->setData(['changed' => 'some value']);
 		$this->assertTrue(is_array($sample->getChanged()));
-		$this->assertEquals(8, count($sample->getChanged()));
+		$this->assertEquals(9, count($sample->getChanged()));
 	}
 }

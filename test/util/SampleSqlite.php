@@ -13,7 +13,8 @@ class SampleSqlite extends Sample {
     	int_value integer,
     	string_value varchar(16),
     	decimal_value decimal,
-    	boolean_value integer
+    	boolean_value integer,
+    	changed varchar(10)
 		)";
 		self::$db = 'defaultDb';
 		Db::exec(self::$db, $sql);

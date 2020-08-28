@@ -45,6 +45,7 @@ class DbObjectCrudTest extends TestCase {
     $updated->int_value = "711";
     $updated->decimal_value = "9.876.543,21";
     $updated->boolean_value = 0;
+    $updated->changed = 'new value';
     $updated->save();
     $read = Sample::getOneBy(array('string_value' => "test's"));
     $this->compare($updated, $read);
