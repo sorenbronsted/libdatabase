@@ -126,7 +126,7 @@ abstract class DbObject {
 	/**
 	 * Save the this object. If uid == 0 it is created otherwise it is updated
 	 */
-  public function save() : void {
+  public function save() : int {
     if ($this->uid) {
       $this->update();
     }
@@ -134,6 +134,7 @@ abstract class DbObject {
       $this->insert();
     }
 		$this->_changed = array();
+    return $this->uid;
   }
   
   protected function update() : void {

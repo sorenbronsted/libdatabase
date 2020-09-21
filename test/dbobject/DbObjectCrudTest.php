@@ -72,8 +72,9 @@ class DbObjectCrudTest extends TestCase {
   
   private function create() {
     $sample = Fixtures::newSample();
-    $sample->save();
+    $uid = $sample->save();
     $this->assertTrue($sample->uid > 0);
+    $this->assertEquals($uid, $sample->uid);
     return $sample;
   }
 }
